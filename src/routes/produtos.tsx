@@ -67,7 +67,7 @@ function ProductsPage() {
   const showPrices = settings?.show_prices ?? true;
 
   const setSearch = (patch: Partial<ProductSearch>) =>
-    navigate({ search: (prev) => ({ ...prev, ...patch }), replace: true });
+    navigate({ search: (prev: ProductSearch) => ({ ...prev, ...patch }), replace: true });
 
   const filtered = useMemo(() => {
     const categoryId = categories?.find((c) => c.slug === search.categoria)?.id;
