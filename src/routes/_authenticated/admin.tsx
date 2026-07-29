@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
+import { CURRENCIES, LANGUAGES } from "@/lib/i18n";
 import { uploadProductImage } from "@/lib/upload";
 import {
   ambientesQuery,
@@ -883,6 +884,40 @@ function SettingsAdmin() {
         </Button>
       }
     >
+      <div className="mb-6 grid gap-4 rounded-lg border border-border bg-muted/40 p-4 sm:grid-cols-2">
+        <Field
+          label="Idioma do site"
+          hint="Troca global: todos os textos fixos do site mudam na hora."
+        >
+          <Select value={form.language || "pt-BR"} onValueChange={(v) => set("language", v)}>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {LANGUAGES.map((l) => (
+                <SelectItem key={l.code} value={l.code}>
+                  {l.flag} {l.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </Field>
+        <Field label="Moeda" hint="Usada para exibir todos os preços do catálogo.">
+          <Select value={form.currency || "BRL"} onValueChange={(v) => set("currency", v)}>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {CURRENCIES.map((c) => (
+                <SelectItem key={c.code} value={c.code}>
+                  {c.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </Field>
+      </div>
+
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Nome da marca">
           <Input value={form.brand_name} onChange={(e) => set("brand_name", e.target.value)} />
@@ -890,6 +925,7 @@ function SettingsAdmin() {
         <Field label="Slogan">
           <Input value={form.tagline} onChange={(e) => set("tagline", e.target.value)} />
         </Field>
+
         <Field label="Telefone">
           <Input value={form.phone} onChange={(e) => set("phone", e.target.value)} />
         </Field>

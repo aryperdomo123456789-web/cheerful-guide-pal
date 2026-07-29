@@ -31,6 +31,8 @@ export type SiteSettings = {
   years_experience: number;
   projects_done: number;
   show_prices: boolean;
+  language: string;
+  currency: string;
 };
 
 export type Category = {
