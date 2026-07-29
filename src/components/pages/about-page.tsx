@@ -2,45 +2,51 @@ import { Hammer, Leaf, Users } from "lucide-react";
 
 import { SiteLayout } from "@/components/site/site-layout";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import { SiteLink, useSite } from "@/lib/site-context";
-
-const valores = [
-  { icon: Hammer, title: "Feito à mão", text: "Cada peça passa pela bancada, não por uma linha de montagem." },
-  { icon: Leaf, title: "Madeira com história", text: "Trabalhamos com maciços nobres e madeira de demolição." },
-  { icon: Users, title: "Marcenaria familiar", text: "Atendimento direto com quem fabrica, do projeto à entrega." },
-];
 
 export function AboutPageView() {
   const { settings } = useSite();
+  const { t, formatNumber } = useI18n();
+
+  const valores = [
+    { icon: Hammer, title: t("about.value1.title"), text: t("about.value1.text") },
+    { icon: Leaf, title: t("about.value2.title"), text: t("about.value2.text") },
+    { icon: Users, title: t("about.value3.title"), text: t("about.value3.text") },
+  ];
 
   return (
     <SiteLayout>
       <div className="border-b border-border bg-sand">
         <div className="mx-auto max-w-6xl px-4 py-12">
-          <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">Quem somos</p>
-          <h1 className="mt-2 font-display text-4xl">A Marcenaria</h1>
+          <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">{t("about.eyebrow")}</p>
+          <h1 className="mt-2 font-display text-4xl">{t("about.title")}</h1>
         </div>
       </div>
 
       <section className="mx-auto grid max-w-6xl gap-10 px-4 py-14 lg:grid-cols-2 lg:items-center">
         <img
           src="/produtos/oficina.jpg"
-          alt="Oficina de marcenaria com bancadas e ferramentas"
+          alt={t("about.title")}
           className="aspect-4/3 w-full rounded-lg object-cover"
         />
         <div>
-          <h2 className="font-display text-3xl">Madeira, mão e paciência</h2>
+          <h2 className="font-display text-3xl">{t("about.subtitle")}</h2>
           <p className="mt-4 whitespace-pre-line text-muted-foreground">{settings?.about_text}</p>
           <div className="mt-8 grid grid-cols-2 gap-6">
             <div>
               <p className="font-display text-3xl text-wood">{settings?.years_experience}+</p>
-              <p className="text-xs uppercase tracking-wide text-muted-foreground">anos de oficina</p>
+              <p className="text-xs uppercase tracking-wide text-muted-foreground">
+                {t("home.stats.years")}
+              </p>
             </div>
             <div>
               <p className="font-display text-3xl text-wood">
-                {(settings?.projects_done ?? 0).toLocaleString("pt-BR")}+
+                {formatNumber(settings?.projects_done ?? 0)}+
               </p>
-              <p className="text-xs uppercase tracking-wide text-muted-foreground">peças entregues</p>
+              <p className="text-xs uppercase tracking-wide text-muted-foreground">
+                {t("home.stats.pieces")}
+              </p>
             </div>
           </div>
         </div>
@@ -59,16 +65,14 @@ export function AboutPageView() {
       </section>
 
       <section className="mx-auto max-w-3xl px-4 py-16 text-center">
-        <h2 className="font-display text-3xl">Quer conhecer a oficina?</h2>
-        <p className="mt-3 text-muted-foreground">
-          Agende uma visita ou mande sua ideia — respondemos com projeto e orçamento.
-        </p>
+        <h2 className="font-display text-3xl">{t("about.ctaTitle")}</h2>
+        <p className="mt-3 text-muted-foreground">{t("about.ctaText")}</p>
         <div className="mt-7 flex flex-wrap justify-center gap-3">
           <Button asChild size="lg" className="bg-ember text-ember-foreground hover:bg-ember/90">
-            <SiteLink page="contato">Falar com a marcenaria</SiteLink>
+            <SiteLink page="contato">{t("about.ctaPrimary")}</SiteLink>
           </Button>
           <Button asChild size="lg" variant="outline">
-            <SiteLink page="produtos">Ver catálogo</SiteLink>
+            <SiteLink page="produtos">{t("home.viewCatalog")}</SiteLink>
           </Button>
         </div>
       </section>
