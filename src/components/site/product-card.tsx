@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
+import { useI18n } from "@/lib/i18n";
 import { SiteLink } from "@/lib/site-context";
-import { formatPrice, type Product } from "@/lib/site-data";
+import { type Product } from "@/lib/site-data";
 
 export function ProductCard({
   product,
@@ -9,6 +10,7 @@ export function ProductCard({
   product: Product;
   showPrice?: boolean;
 }) {
+  const { t, formatPrice } = useI18n();
   const cover = product.images?.[0] ?? "/produtos/oficina.jpg";
   const hasSale = product.sale_price != null && product.price != null;
 
@@ -26,11 +28,11 @@ export function ProductCard({
           className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
         {product.is_featured ? (
-          <Badge className="absolute left-3 top-3 bg-ember text-ember-foreground">Destaque</Badge>
+          <Badge className="absolute left-3 top-3 bg-ember text-ember-foreground">{t("card.featured")}</Badge>
         ) : null}
         {hasSale ? (
           <Badge variant="secondary" className="absolute right-3 top-3">
-            Promoção
+            {t("card.sale")}
           </Badge>
         ) : null}
       </div>
@@ -57,7 +59,7 @@ export function ProductCard({
             )}
           </div>
         ) : (
-          <span className="mt-auto pt-3 text-sm font-medium text-ember">Ver detalhes</span>
+          <span className="mt-auto pt-3 text-sm font-medium text-ember">{t("card.details")}</span>
         )}
       </div>
     </SiteLink>
