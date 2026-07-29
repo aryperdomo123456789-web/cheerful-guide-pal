@@ -181,9 +181,10 @@ const emptyProduct = {
 
 function ProductsAdmin() {
   const qc = useQueryClient();
-  const { data: products } = useQuery(productsQuery);
-  const { data: categories } = useQuery(categoriesQuery);
-  const { data: ambientes } = useQuery(ambientesQuery);
+  const siteId = useAdminSite();
+  const { data: products } = useQuery(productsQuery(siteId));
+  const { data: categories } = useQuery(categoriesQuery(siteId));
+  const { data: ambientes } = useQuery(ambientesQuery(siteId));
   const [form, setForm] = useState({ ...emptyProduct });
   const [editingId, setEditingId] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
