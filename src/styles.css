@@ -95,6 +95,40 @@
   --sidebar-ring: oklch(0.617 0.156 46.3);
 }
 
+/* Tema K&E — claro, madeira mel + verde folha, inspirado na loja de referência */
+[data-site-theme="kee"] {
+  --radius: 0.25rem;
+  --background: oklch(0.995 0.002 106);
+  --foreground: oklch(0.22 0.012 90);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.012 90);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.012 90);
+  --primary: oklch(0.36 0.055 145);
+  --primary-foreground: oklch(0.985 0.005 106);
+  --secondary: oklch(0.958 0.008 106);
+  --secondary-foreground: oklch(0.3 0.03 130);
+  --muted: oklch(0.955 0.006 106);
+  --muted-foreground: oklch(0.5 0.014 100);
+  --accent: oklch(0.93 0.03 110);
+  --accent-foreground: oklch(0.3 0.03 130);
+  --border: oklch(0.905 0.006 106);
+  --input: oklch(0.905 0.006 106);
+  --ring: oklch(0.5 0.09 145);
+  --wood: oklch(0.63 0.11 66);
+  --wood-foreground: oklch(0.99 0.004 106);
+  --sand: oklch(0.972 0.008 100);
+  --ember: oklch(0.53 0.11 145);
+  --ember-foreground: oklch(0.99 0.004 106);
+  --chart-1: oklch(0.53 0.11 145);
+  --chart-2: oklch(0.63 0.11 66);
+  --chart-3: oklch(0.36 0.055 145);
+  --chart-4: oklch(0.75 0.09 90);
+  --chart-5: oklch(0.45 0.03 100);
+}
+
+
+
 .dark {
   --background: oklch(0.192 0.019 52);
   --foreground: oklch(0.955 0.02 84.7);
