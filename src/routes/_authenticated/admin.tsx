@@ -711,17 +711,21 @@ function TestimonialsAdmin() {
 
 function LeadsAdmin() {
   const qc = useQueryClient();
+  const siteId = useAdminSite();
   const { data: leads } = useQuery({
-    queryKey: ["leads"],
+    queryKey: ["leads", siteId ?? null],
+    enabled: Boolean(siteId),
     queryFn: async (): Promise<Lead[]> => {
       const { data, error } = await supabase
         .from("leads")
         .select("*")
+        .eq("site_id", siteId!)
         .order("created_at", { ascending: false });
       if (error) throw error;
       return (data ?? []) as Lead[];
     },
   });
+
 
   const update = async (id: string, status: string) => {
     const { error } = await supabase.from("leads").update({ status }).eq("id", id);
