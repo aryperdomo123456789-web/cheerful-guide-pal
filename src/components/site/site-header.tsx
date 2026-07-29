@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { SiteSwitcher } from "@/components/site/site-switcher";
 import { SiteLink, useSite, type SitePage } from "@/lib/site-context";
 import { whatsappLink } from "@/lib/site-data";
 
@@ -42,7 +43,10 @@ export function SiteHeader() {
           ))}
         </nav>
 
+        <SiteSwitcher className="hidden h-9 w-[190px] text-xs lg:flex" />
+
         <Button asChild className="hidden bg-ember text-ember-foreground hover:bg-ember/90 sm:inline-flex">
+
           <a
             href={whatsappLink(settings?.whatsapp ?? "", "Olá! Vim pelo site e quero um orçamento.")}
             target="_blank"
@@ -60,7 +64,13 @@ export function SiteHeader() {
             </Button>
           </SheetTrigger>
           <SheetContent side="right" className="w-72">
-            <nav className="mt-10 flex flex-col gap-1">
+            <div className="mt-10">
+              <p className="mb-2 px-3 text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
+                Marca / tema
+              </p>
+              <SiteSwitcher className="w-full" />
+            </div>
+            <nav className="mt-4 flex flex-col gap-1">
               {navItems.map((item) => (
                 <SiteLink
                   key={item.page}
