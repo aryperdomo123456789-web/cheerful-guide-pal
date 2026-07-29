@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { SiteSwitcher } from "@/components/site/site-switcher";
 import { SiteLink, useSite, type SitePage } from "@/lib/site-context";
 import { whatsappLink } from "@/lib/site-data";
 
