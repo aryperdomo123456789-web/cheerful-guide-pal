@@ -49,10 +49,22 @@ export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminPage,
 });
 
+const AdminSiteContext = createContext<string | null>(null);
+const useAdminSite = () => useContext(AdminSiteContext);
+
 function AdminPage() {
   const navigate = useNavigate();
   const qc = useQueryClient();
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+  const { data: sites } = useQuery(sitesQuery);
+  const [activeSite, setActiveSite] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!activeSite && sites?.length) {
+      setActiveSite((sites.find((s) => s.is_primary) ?? sites[0]).id);
+    }
+  }, [sites, activeSite]);
+
 
   useEffect(() => {
     (async () => {
