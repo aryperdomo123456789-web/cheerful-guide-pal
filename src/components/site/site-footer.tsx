@@ -1,12 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { Clock, Instagram, Facebook, Mail, MapPin, Phone } from "lucide-react";
 
-import { categoriesQuery, settingsQuery } from "@/lib/site-data";
+import { SiteLink, useSite } from "@/lib/site-context";
 
 export function SiteFooter() {
-  const { data: settings } = useQuery(settingsQuery);
-  const { data: categories } = useQuery(categoriesQuery);
+  const { settings, categories } = useSite();
 
   return (
     <footer className="mt-24 bg-sidebar text-sidebar-foreground">
@@ -15,8 +13,8 @@ export function SiteFooter() {
           <p className="font-display text-2xl">{settings?.brand_name}</p>
           <p className="mt-3 text-sm text-sidebar-foreground/70">{settings?.tagline}</p>
           <p className="mt-4 text-sm text-sidebar-foreground/70">
-            {settings?.years_experience} anos de oficina · {settings?.projects_done?.toLocaleString("pt-BR")} peças
-            entregues
+            {settings?.years_experience} anos de oficina ·{" "}
+            {settings?.projects_done?.toLocaleString("pt-BR")} peças entregues
           </p>
           <div className="mt-5 flex gap-3">
             {settings?.instagram ? (
@@ -45,15 +43,15 @@ export function SiteFooter() {
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-sidebar-foreground/50">Categorias</p>
           <ul className="mt-4 space-y-2 text-sm">
-            {(categories ?? []).slice(0, 6).map((c) => (
+            {categories.slice(0, 6).map((c) => (
               <li key={c.id}>
-                <Link
-                  to="/produtos"
+                <SiteLink
+                  page="produtos"
                   search={{ categoria: c.slug }}
                   className="text-sidebar-foreground/80 hover:text-sidebar-foreground"
                 >
                   {c.name}
-                </Link>
+                </SiteLink>
               </li>
             ))}
           </ul>
@@ -63,19 +61,19 @@ export function SiteFooter() {
           <p className="text-xs uppercase tracking-[0.2em] text-sidebar-foreground/50">Navegue</p>
           <ul className="mt-4 space-y-2 text-sm">
             <li>
-              <Link to="/produtos" className="text-sidebar-foreground/80 hover:text-sidebar-foreground">
+              <SiteLink page="produtos" className="text-sidebar-foreground/80 hover:text-sidebar-foreground">
                 Todos os produtos
-              </Link>
+              </SiteLink>
             </li>
             <li>
-              <Link to="/sobre" className="text-sidebar-foreground/80 hover:text-sidebar-foreground">
+              <SiteLink page="sobre" className="text-sidebar-foreground/80 hover:text-sidebar-foreground">
                 A Marcenaria
-              </Link>
+              </SiteLink>
             </li>
             <li>
-              <Link to="/contato" className="text-sidebar-foreground/80 hover:text-sidebar-foreground">
+              <SiteLink page="contato" className="text-sidebar-foreground/80 hover:text-sidebar-foreground">
                 Contato e orçamento
-              </Link>
+              </SiteLink>
             </li>
             <li>
               <Link to="/auth" className="text-sidebar-foreground/60 hover:text-sidebar-foreground">
