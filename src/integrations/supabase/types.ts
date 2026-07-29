@@ -20,6 +20,7 @@ export type Database = {
           id: string
           is_active: boolean
           name: string
+          site_id: string
           slug: string
           sort_order: number
         }
@@ -28,6 +29,7 @@ export type Database = {
           id?: string
           is_active?: boolean
           name: string
+          site_id: string
           slug: string
           sort_order?: number
         }
@@ -36,10 +38,19 @@ export type Database = {
           id?: string
           is_active?: boolean
           name?: string
+          site_id?: string
           slug?: string
           sort_order?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "ambientes_site_id_fkey"
+            columns: ["site_id"]
+            isOneToOne: false
+            referencedRelation: "sites"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       categories: {
         Row: {
@@ -49,6 +60,7 @@ export type Database = {
           image_url: string | null
           is_active: boolean
           name: string
+          site_id: string
           slug: string
           sort_order: number
           updated_at: string
@@ -60,6 +72,7 @@ export type Database = {
           image_url?: string | null
           is_active?: boolean
           name: string
+          site_id: string
           slug: string
           sort_order?: number
           updated_at?: string
@@ -71,11 +84,20 @@ export type Database = {
           image_url?: string | null
           is_active?: boolean
           name?: string
+          site_id?: string
           slug?: string
           sort_order?: number
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "categories_site_id_fkey"
+            columns: ["site_id"]
+            isOneToOne: false
+            referencedRelation: "sites"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       leads: {
         Row: {
@@ -87,6 +109,7 @@ export type Database = {
           name: string
           phone: string
           product_name: string
+          site_id: string | null
           status: string
         }
         Insert: {
@@ -98,6 +121,7 @@ export type Database = {
           name: string
           phone: string
           product_name?: string
+          site_id?: string | null
           status?: string
         }
         Update: {
@@ -109,9 +133,18 @@ export type Database = {
           name?: string
           phone?: string
           product_name?: string
+          site_id?: string | null
           status?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "leads_site_id_fkey"
+            columns: ["site_id"]
+            isOneToOne: false
+            referencedRelation: "sites"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       products: {
         Row: {
@@ -128,6 +161,7 @@ export type Database = {
           price: number | null
           sale_price: number | null
           short_description: string
+          site_id: string
           slug: string
           sort_order: number
           updated_at: string
@@ -147,6 +181,7 @@ export type Database = {
           price?: number | null
           sale_price?: number | null
           short_description?: string
+          site_id: string
           slug: string
           sort_order?: number
           updated_at?: string
@@ -166,6 +201,7 @@ export type Database = {
           price?: number | null
           sale_price?: number | null
           short_description?: string
+          site_id?: string
           slug?: string
           sort_order?: number
           updated_at?: string
@@ -184,6 +220,13 @@ export type Database = {
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_site_id_fkey"
+            columns: ["site_id"]
+            isOneToOne: false
+            referencedRelation: "sites"
             referencedColumns: ["id"]
           },
         ]
@@ -205,6 +248,7 @@ export type Database = {
           phone: string
           projects_done: number
           show_prices: boolean
+          site_id: string
           tagline: string
           updated_at: string
           whatsapp: string
@@ -226,6 +270,7 @@ export type Database = {
           phone?: string
           projects_done?: number
           show_prices?: boolean
+          site_id: string
           tagline?: string
           updated_at?: string
           whatsapp?: string
@@ -247,10 +292,55 @@ export type Database = {
           phone?: string
           projects_done?: number
           show_prices?: boolean
+          site_id?: string
           tagline?: string
           updated_at?: string
           whatsapp?: string
           years_experience?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "site_settings_site_id_fkey"
+            columns: ["site_id"]
+            isOneToOne: false
+            referencedRelation: "sites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sites: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          is_primary: boolean
+          name: string
+          slug: string
+          sort_order: number
+          theme: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          is_primary?: boolean
+          name: string
+          slug: string
+          sort_order?: number
+          theme?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          is_primary?: boolean
+          name?: string
+          slug?: string
+          sort_order?: number
+          theme?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -263,6 +353,7 @@ export type Database = {
           id: string
           is_active: boolean
           rating: number
+          site_id: string
           sort_order: number
         }
         Insert: {
@@ -273,6 +364,7 @@ export type Database = {
           id?: string
           is_active?: boolean
           rating?: number
+          site_id: string
           sort_order?: number
         }
         Update: {
@@ -283,9 +375,18 @@ export type Database = {
           id?: string
           is_active?: boolean
           rating?: number
+          site_id?: string
           sort_order?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "testimonials_site_id_fkey"
+            columns: ["site_id"]
+            isOneToOne: false
+            referencedRelation: "sites"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
