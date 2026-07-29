@@ -167,6 +167,7 @@ function AdminPage() {
               <TabsTrigger value="depoimentos">Depoimentos</TabsTrigger>
               <TabsTrigger value="orcamentos">Orçamentos</TabsTrigger>
               <TabsTrigger value="config">Configurações</TabsTrigger>
+              <TabsTrigger value="conta">Minha conta</TabsTrigger>
             </TabsList>
 
             <TabsContent value="produtos" className="mt-6">
@@ -186,6 +187,9 @@ function AdminPage() {
             </TabsContent>
             <TabsContent value="config" className="mt-6">
               <SettingsAdmin key={activeSite ?? "none"} />
+            </TabsContent>
+            <TabsContent value="conta" className="mt-6">
+              <AccountAdmin />
             </TabsContent>
           </Tabs>
         </div>
@@ -985,5 +989,110 @@ function ToggleField({
       <Switch checked={checked} onCheckedChange={onChange} />
       {label}
     </label>
+  );
+}
+
+function AccountAdmin() {
+  const [email, setEmail] = useState("");
+  const [currentEmail, setCurrentEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const [savingEmail, setSavingEmail] = useState(false);
+  const [savingPass, setSavingPass] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setCurrentEmail(data.user?.email ?? "");
+      setEmail(data.user?.email ?? "");
+    });
+  }, []);
+
+  const changeEmail = async () => {
+    const value = email.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      toast.error("E-mail inválido");
+      return;
+    }
+    setSavingEmail(true);
+    const { error } = await supabase.auth.updateUser({ email: value });
+    setSavingEmail(false);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("E-mail atualizado. Confirme pelo link enviado, se solicitado.");
+  };
+
+  const changePassword = async () => {
+    if (password.length < 6) {
+      toast.error("A senha precisa ter ao menos 6 caracteres");
+      return;
+    }
+    if (password !== confirm) {
+      toast.error("As senhas não conferem");
+      return;
+    }
+    setSavingPass(true);
+    const { error } = await supabase.auth.updateUser({ password });
+    setSavingPass(false);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    setPassword("");
+    setConfirm("");
+    toast.success("Senha alterada com sucesso");
+  };
+
+  return (
+    <div className="grid gap-6 md:grid-cols-2">
+      <Panel title="E-mail de acesso">
+        <div className="grid gap-4">
+          <p className="text-sm text-muted-foreground">
+            Conta atual: <span className="font-medium text-foreground">{currentEmail || "—"}</span>
+          </p>
+          <div className="grid gap-2">
+            <Label htmlFor="acc-email">Novo e-mail</Label>
+            <Input
+              id="acc-email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <Button onClick={() => void changeEmail()} disabled={savingEmail}>
+            {savingEmail ? "Salvando..." : "Atualizar e-mail"}
+          </Button>
+        </div>
+      </Panel>
+
+      <Panel title="Senha de acesso">
+        <div className="grid gap-4">
+          <div className="grid gap-2">
+            <Label htmlFor="acc-pass">Nova senha</Label>
+            <Input
+              id="acc-pass"
+              type="password"
+              autoComplete="new-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="acc-pass2">Confirmar nova senha</Label>
+            <Input
+              id="acc-pass2"
+              type="password"
+              autoComplete="new-password"
+              value={confirm}
+              onChange={(e) => setConfirm(e.target.value)}
+            />
+          </div>
+          <Button onClick={() => void changePassword()} disabled={savingPass}>
+            {savingPass ? "Salvando..." : "Alterar senha"}
+          </Button>
+        </div>
+      </Panel>
+    </div>
   );
 }
