@@ -478,16 +478,19 @@ function ProductsAdmin() {
 
 function CategoriesAdmin() {
   const qc = useQueryClient();
-  const { data: categories } = useQuery(categoriesQuery);
+  const siteId = useAdminSite();
+  const { data: categories } = useQuery(categoriesQuery(siteId));
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
   const add = async () => {
+    if (!siteId) return;
     if (!name.trim()) return toast.error("Informe o nome");
     const { error } = await supabase.from("categories").insert({
       name: name.trim(),
       slug: slugify(name),
       description: description.trim(),
+      site_id: siteId,
       sort_order: (categories?.length ?? 0) + 1,
     });
     if (error) return toast.error(error.message);
