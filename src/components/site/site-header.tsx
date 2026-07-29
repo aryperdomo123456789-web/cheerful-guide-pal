@@ -64,7 +64,13 @@ export function SiteHeader() {
             </Button>
           </SheetTrigger>
           <SheetContent side="right" className="w-72">
-            <nav className="mt-10 flex flex-col gap-1">
+            <div className="mt-10">
+              <p className="mb-2 px-3 text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
+                Marca / tema
+              </p>
+              <SiteSwitcher className="w-full" />
+            </div>
+            <nav className="mt-4 flex flex-col gap-1">
               {navItems.map((item) => (
                 <SiteLink
                   key={item.page}
