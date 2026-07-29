@@ -556,14 +556,17 @@ function CategoriesAdmin() {
 
 function AmbientesAdmin() {
   const qc = useQueryClient();
-  const { data: ambientes } = useQuery(ambientesQuery);
+  const siteId = useAdminSite();
+  const { data: ambientes } = useQuery(ambientesQuery(siteId));
   const [name, setName] = useState("");
 
   const add = async () => {
+    if (!siteId) return;
     if (!name.trim()) return toast.error("Informe o nome");
     const { error } = await supabase.from("ambientes").insert({
       name: name.trim(),
       slug: slugify(name),
+      site_id: siteId,
       sort_order: (ambientes?.length ?? 0) + 1,
     });
     if (error) return toast.error(error.message);
