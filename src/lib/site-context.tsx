@@ -139,12 +139,16 @@ export function SiteLink({
   const href = useSiteHref();
   const target = href(page, productSlug);
 
-  const props = {
+  const props: Record<string, unknown> = {
     ...rest,
     to: target.to,
     params: target.params,
     search,
-  } as unknown as Record<string, unknown>;
+  };
 
-  return <Link {...(props as never)}>{children}</Link>;
+  const AnyLink = Link as unknown as React.ComponentType<
+    Record<string, unknown> & { children?: ReactNode }
+  >;
+
+  return <AnyLink {...props}>{children}</AnyLink>;
 }
