@@ -1,6 +1,5 @@
-import { Link } from "@tanstack/react-router";
-
 import { Badge } from "@/components/ui/badge";
+import { SiteLink } from "@/lib/site-context";
 import { formatPrice, type Product } from "@/lib/site-data";
 
 export function ProductCard({
@@ -14,9 +13,9 @@ export function ProductCard({
   const hasSale = product.sale_price != null && product.price != null;
 
   return (
-    <Link
-      to="/produtos/$slug"
-      params={{ slug: product.slug }}
+    <SiteLink
+      page="produto"
+      productSlug={product.slug}
       className="group flex flex-col overflow-hidden rounded-lg border border-border bg-card transition-shadow hover:shadow-lg"
     >
       <div className="relative aspect-4/3 overflow-hidden bg-muted">
@@ -61,6 +60,6 @@ export function ProductCard({
           <span className="mt-auto pt-3 text-sm font-medium text-ember">Ver detalhes</span>
         )}
       </div>
-    </Link>
+    </SiteLink>
   );
 }

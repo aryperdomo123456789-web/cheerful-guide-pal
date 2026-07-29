@@ -1,10 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
 import { MessageCircle } from "lucide-react";
 
-import { settingsQuery, whatsappLink } from "@/lib/site-data";
+import { useSite } from "@/lib/site-context";
+import { whatsappLink } from "@/lib/site-data";
 
 export function WhatsappFab() {
-  const { data: settings } = useQuery(settingsQuery);
+  const { settings } = useSite();
   if (!settings?.whatsapp) return null;
 
   return (

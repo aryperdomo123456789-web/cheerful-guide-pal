@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
+import { useSite } from "@/lib/site-context";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Informe seu nome").max(100),
@@ -18,6 +19,7 @@ const schema = z.object({
 });
 
 export function QuoteForm({ productName = "" }: { productName?: string }) {
+  const { siteId } = useSite();
   const [values, setValues] = useState({
     name: "",
     phone: "",
@@ -35,6 +37,7 @@ export function QuoteForm({ productName = "" }: { productName?: string }) {
       const { error } = await supabase.from("leads").insert({
         ...parsed.data,
         product_name: productName,
+        site_id: siteId,
       });
       if (error) throw error;
     },

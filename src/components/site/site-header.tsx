@@ -1,45 +1,44 @@
 import { Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { Menu, Phone } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { settingsQuery, whatsappLink } from "@/lib/site-data";
+import { SiteLink, useSite, type SitePage } from "@/lib/site-context";
+import { whatsappLink } from "@/lib/site-data";
 
-const navItems = [
-  { to: "/", label: "Início" },
-  { to: "/produtos", label: "Produtos" },
-  { to: "/sobre", label: "A Marcenaria" },
-  { to: "/contato", label: "Contato" },
-] as const;
+const navItems: { page: SitePage; label: string }[] = [
+  { page: "home", label: "Início" },
+  { page: "produtos", label: "Produtos" },
+  { page: "sobre", label: "A Marcenaria" },
+  { page: "contato", label: "Contato" },
+];
 
 export function SiteHeader() {
-  const { data: settings } = useQuery(settingsQuery);
+  const { settings } = useSite();
   const [open, setOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/70 bg-background/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-4 px-4 sm:h-20">
-        <Link to="/" className="mr-auto flex flex-col leading-none">
+        <SiteLink page="home" className="mr-auto flex flex-col leading-none">
           <span className="font-display text-xl font-semibold tracking-tight sm:text-2xl">
             {settings?.brand_name ?? "Marcenaria"}
           </span>
           <span className="text-[0.65rem] uppercase tracking-[0.22em] text-muted-foreground">
             {settings?.tagline ?? "madeira maciça"}
           </span>
-        </Link>
+        </SiteLink>
 
         <nav className="hidden items-center gap-7 md:flex">
           {navItems.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              activeOptions={{ exact: item.to === "/" }}
+            <SiteLink
+              key={item.page}
+              page={item.page}
               className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground data-[status=active]:text-foreground"
             >
               {item.label}
-            </Link>
+            </SiteLink>
           ))}
         </nav>
 
@@ -63,14 +62,14 @@ export function SiteHeader() {
           <SheetContent side="right" className="w-72">
             <nav className="mt-10 flex flex-col gap-1">
               {navItems.map((item) => (
-                <Link
-                  key={item.to}
-                  to={item.to}
+                <SiteLink
+                  key={item.page}
+                  page={item.page}
                   onClick={() => setOpen(false)}
                   className="rounded-md px-3 py-3 text-base font-medium text-foreground hover:bg-muted"
                 >
                   {item.label}
-                </Link>
+                </SiteLink>
               ))}
               <Link
                 to="/auth"

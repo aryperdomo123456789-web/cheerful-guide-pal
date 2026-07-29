@@ -1,8 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { ExternalLink, LogOut, Plus, Trash2, Upload } from "lucide-react";
+import { ExternalLink, Globe, LogOut, Plus, Trash2, Upload } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -26,6 +26,7 @@ import {
   formatPrice,
   productsQuery,
   settingsQuery,
+  sitesQuery,
   slugify,
   testimonialsQuery,
   type Ambiente,
@@ -49,10 +50,22 @@ export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminPage,
 });
 
+const AdminSiteContext = createContext<string | null>(null);
+const useAdminSite = () => useContext(AdminSiteContext);
+
 function AdminPage() {
   const navigate = useNavigate();
   const qc = useQueryClient();
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+  const { data: sites } = useQuery(sitesQuery);
+  const [activeSite, setActiveSite] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!activeSite && sites?.length) {
+      setActiveSite((sites.find((s) => s.is_primary) ?? sites[0]).id);
+    }
+  }, [sites, activeSite]);
+
 
   useEffect(() => {
     (async () => {
@@ -94,57 +107,90 @@ function AdminPage() {
     );
   }
 
+  const current = sites?.find((s) => s.id === activeSite) ?? null;
+
   return (
-    <div className="min-h-screen bg-sand">
-      <header className="border-b border-border bg-card">
-        <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-4">
-          <div className="mr-auto">
-            <p className="font-display text-xl">Painel do site</p>
-            <p className="text-xs text-muted-foreground">Gestão de conteúdo da marcenaria</p>
+    <AdminSiteContext.Provider value={activeSite}>
+      <div className="min-h-screen bg-sand">
+        <header className="border-b border-border bg-card">
+          <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-4">
+            <div className="mr-auto">
+              <p className="font-display text-xl">Painel dos sites</p>
+              <p className="text-xs text-muted-foreground">
+                Gerencie todas as marcas em um só lugar
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Globe className="size-4 text-muted-foreground" />
+              <Select value={activeSite ?? ""} onValueChange={(v) => setActiveSite(v)}>
+                <SelectTrigger className="w-56">
+                  <SelectValue placeholder="Selecione o site" />
+                </SelectTrigger>
+                <SelectContent>
+                  {(sites ?? []).map((s) => (
+                    <SelectItem key={s.id} value={s.id}>
+                      {s.name}
+                      {s.is_primary ? " (principal)" : ""}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {current?.is_primary ? (
+              <Button asChild variant="outline" size="sm">
+                <Link to="/">
+                  <ExternalLink className="mr-2 size-4" /> Ver site
+                </Link>
+              </Button>
+            ) : current ? (
+              <Button asChild variant="outline" size="sm">
+                <Link to="/s/$site" params={{ site: current.slug }}>
+                  <ExternalLink className="mr-2 size-4" /> Ver site
+                </Link>
+              </Button>
+            ) : null}
+
+            <Button variant="ghost" size="sm" onClick={signOut}>
+              <LogOut className="mr-2 size-4" /> Sair
+            </Button>
           </div>
-          <Button asChild variant="outline" size="sm">
-            <Link to="/">
-              <ExternalLink className="mr-2 size-4" /> Ver site
-            </Link>
-          </Button>
-          <Button variant="ghost" size="sm" onClick={signOut}>
-            <LogOut className="mr-2 size-4" /> Sair
-          </Button>
+        </header>
+
+        <div className="mx-auto max-w-7xl px-4 py-8">
+          <Tabs defaultValue="produtos">
+            <TabsList className="flex h-auto flex-wrap justify-start">
+              <TabsTrigger value="produtos">Produtos</TabsTrigger>
+              <TabsTrigger value="categorias">Categorias</TabsTrigger>
+              <TabsTrigger value="ambientes">Ambientes</TabsTrigger>
+              <TabsTrigger value="depoimentos">Depoimentos</TabsTrigger>
+              <TabsTrigger value="orcamentos">Orçamentos</TabsTrigger>
+              <TabsTrigger value="config">Configurações</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="produtos" className="mt-6">
+              <ProductsAdmin key={activeSite ?? "none"} />
+            </TabsContent>
+            <TabsContent value="categorias" className="mt-6">
+              <CategoriesAdmin key={activeSite ?? "none"} />
+            </TabsContent>
+            <TabsContent value="ambientes" className="mt-6">
+              <AmbientesAdmin key={activeSite ?? "none"} />
+            </TabsContent>
+            <TabsContent value="depoimentos" className="mt-6">
+              <TestimonialsAdmin key={activeSite ?? "none"} />
+            </TabsContent>
+            <TabsContent value="orcamentos" className="mt-6">
+              <LeadsAdmin key={activeSite ?? "none"} />
+            </TabsContent>
+            <TabsContent value="config" className="mt-6">
+              <SettingsAdmin key={activeSite ?? "none"} />
+            </TabsContent>
+          </Tabs>
         </div>
-      </header>
-
-      <div className="mx-auto max-w-7xl px-4 py-8">
-        <Tabs defaultValue="produtos">
-          <TabsList className="flex h-auto flex-wrap justify-start">
-            <TabsTrigger value="produtos">Produtos</TabsTrigger>
-            <TabsTrigger value="categorias">Categorias</TabsTrigger>
-            <TabsTrigger value="ambientes">Ambientes</TabsTrigger>
-            <TabsTrigger value="depoimentos">Depoimentos</TabsTrigger>
-            <TabsTrigger value="orcamentos">Orçamentos</TabsTrigger>
-            <TabsTrigger value="config">Configurações</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="produtos" className="mt-6">
-            <ProductsAdmin />
-          </TabsContent>
-          <TabsContent value="categorias" className="mt-6">
-            <CategoriesAdmin />
-          </TabsContent>
-          <TabsContent value="ambientes" className="mt-6">
-            <AmbientesAdmin />
-          </TabsContent>
-          <TabsContent value="depoimentos" className="mt-6">
-            <TestimonialsAdmin />
-          </TabsContent>
-          <TabsContent value="orcamentos" className="mt-6">
-            <LeadsAdmin />
-          </TabsContent>
-          <TabsContent value="config" className="mt-6">
-            <SettingsAdmin />
-          </TabsContent>
-        </Tabs>
       </div>
-    </div>
+    </AdminSiteContext.Provider>
   );
 }
 
@@ -181,9 +227,10 @@ const emptyProduct = {
 
 function ProductsAdmin() {
   const qc = useQueryClient();
-  const { data: products } = useQuery(productsQuery);
-  const { data: categories } = useQuery(categoriesQuery);
-  const { data: ambientes } = useQuery(ambientesQuery);
+  const siteId = useAdminSite();
+  const { data: products } = useQuery(productsQuery(siteId));
+  const { data: categories } = useQuery(categoriesQuery(siteId));
+  const { data: ambientes } = useQuery(ambientesQuery(siteId));
   const [form, setForm] = useState({ ...emptyProduct });
   const [editingId, setEditingId] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -215,6 +262,7 @@ function ProductsAdmin() {
   };
 
   const save = async () => {
+    if (!siteId) return;
     if (!form.name.trim()) {
       toast.error("Informe o nome do produto");
       return;
@@ -234,6 +282,7 @@ function ProductsAdmin() {
       is_featured: form.is_featured,
       is_active: form.is_active,
       sort_order: Number(form.sort_order) || 0,
+      site_id: siteId,
     };
 
     const { error } = editingId
@@ -478,16 +527,19 @@ function ProductsAdmin() {
 
 function CategoriesAdmin() {
   const qc = useQueryClient();
-  const { data: categories } = useQuery(categoriesQuery);
+  const siteId = useAdminSite();
+  const { data: categories } = useQuery(categoriesQuery(siteId));
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
   const add = async () => {
+    if (!siteId) return;
     if (!name.trim()) return toast.error("Informe o nome");
     const { error } = await supabase.from("categories").insert({
       name: name.trim(),
       slug: slugify(name),
       description: description.trim(),
+      site_id: siteId,
       sort_order: (categories?.length ?? 0) + 1,
     });
     if (error) return toast.error(error.message);
@@ -556,14 +608,17 @@ function CategoriesAdmin() {
 
 function AmbientesAdmin() {
   const qc = useQueryClient();
-  const { data: ambientes } = useQuery(ambientesQuery);
+  const siteId = useAdminSite();
+  const { data: ambientes } = useQuery(ambientesQuery(siteId));
   const [name, setName] = useState("");
 
   const add = async () => {
+    if (!siteId) return;
     if (!name.trim()) return toast.error("Informe o nome");
     const { error } = await supabase.from("ambientes").insert({
       name: name.trim(),
       slug: slugify(name),
+      site_id: siteId,
       sort_order: (ambientes?.length ?? 0) + 1,
     });
     if (error) return toast.error(error.message);
@@ -614,13 +669,16 @@ function AmbientesAdmin() {
 
 function TestimonialsAdmin() {
   const qc = useQueryClient();
-  const { data: testimonials } = useQuery(testimonialsQuery);
+  const siteId = useAdminSite();
+  const { data: testimonials } = useQuery(testimonialsQuery(siteId));
   const [form, setForm] = useState({ author: "", city: "", content: "", rating: 5 });
 
   const add = async () => {
+    if (!siteId) return;
     if (!form.author.trim() || !form.content.trim()) return toast.error("Preencha nome e depoimento");
     const { error } = await supabase.from("testimonials").insert({
       ...form,
+      site_id: siteId,
       sort_order: (testimonials?.length ?? 0) + 1,
     });
     if (error) return toast.error(error.message);
@@ -711,17 +769,21 @@ function TestimonialsAdmin() {
 
 function LeadsAdmin() {
   const qc = useQueryClient();
+  const siteId = useAdminSite();
   const { data: leads } = useQuery({
-    queryKey: ["leads"],
+    queryKey: ["leads", siteId ?? null],
+    enabled: Boolean(siteId),
     queryFn: async (): Promise<Lead[]> => {
       const { data, error } = await supabase
         .from("leads")
         .select("*")
+        .eq("site_id", siteId!)
         .order("created_at", { ascending: false });
       if (error) throw error;
       return (data ?? []) as Lead[];
     },
   });
+
 
   const update = async (id: string, status: string) => {
     const { error } = await supabase.from("leads").update({ status }).eq("id", id);
@@ -787,7 +849,8 @@ function LeadsAdmin() {
 
 function SettingsAdmin() {
   const qc = useQueryClient();
-  const { data: settings } = useQuery(settingsQuery);
+  const siteId = useAdminSite();
+  const { data: settings } = useQuery(settingsQuery(siteId));
   const [form, setForm] = useState<SiteSettings | null>(null);
 
   useEffect(() => {
