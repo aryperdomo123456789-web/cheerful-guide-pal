@@ -3,35 +3,37 @@ import { Axe, Hammer, Ruler, ShieldCheck, Star, TreePine, Truck } from "lucide-r
 import { ProductCard } from "@/components/site/product-card";
 import { SiteLayout } from "@/components/site/site-layout";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import { SiteLink, useSite } from "@/lib/site-context";
 import { whatsappLink } from "@/lib/site-data";
 
-const diferenciais = [
-  { icon: TreePine, title: "Madeira maciça de verdade", text: "Peroba, demolição e maciços nobres. Nada de MDF disfarçado." },
-  { icon: Hammer, title: "Fabricação própria", text: "Da tábua bruta ao acabamento final, tudo sai da nossa oficina." },
-  { icon: Ruler, title: "Sob medida", text: "Ajustamos medidas, cor e ferragens ao seu ambiente." },
-  { icon: Truck, title: "Entrega montada", text: "Enviamos para todo o Brasil com montagem nas principais capitais." },
-];
-
-const etapas = [
-  { n: "01", title: "Conversa", text: "Você manda as medidas e fotos do espaço pelo WhatsApp." },
-  { n: "02", title: "Projeto e orçamento", text: "Desenhamos a peça, definimos madeira, acabamento e prazo." },
-  { n: "03", title: "Oficina", text: "Corte, montagem, lixamento e acabamento feitos à mão." },
-  { n: "04", title: "Entrega", text: "Embalamos, transportamos e montamos na sua casa." },
-];
-
 export function HomePageView() {
   const { settings, products, categories, ambientes, testimonials } = useSite();
+  const { t, formatNumber } = useI18n();
 
   const destaques = products.filter((p) => p.is_featured).slice(0, 6);
   const showPrices = settings?.show_prices ?? true;
+
+  const diferenciais = [
+    { icon: TreePine, title: t("home.diff1.title"), text: t("home.diff1.text") },
+    { icon: Hammer, title: t("home.diff2.title"), text: t("home.diff2.text") },
+    { icon: Ruler, title: t("home.diff3.title"), text: t("home.diff3.text") },
+    { icon: Truck, title: t("home.diff4.title"), text: t("home.diff4.text") },
+  ];
+
+  const etapas = [
+    { n: "01", title: t("home.step1.title"), text: t("home.step1.text") },
+    { n: "02", title: t("home.step2.title"), text: t("home.step2.text") },
+    { n: "03", title: t("home.step3.title"), text: t("home.step3.text") },
+    { n: "04", title: t("home.step4.title"), text: t("home.step4.text") },
+  ];
 
   return (
     <SiteLayout>
       <section className="relative isolate">
         <img
           src="/produtos/hero-sala-jantar.jpg"
-          alt="Sala de jantar com mesa de madeira maciça"
+          alt={settings?.hero_title ?? ""}
           className="absolute inset-0 -z-10 size-full object-cover"
         />
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/80 via-black/60 to-black/25" />
@@ -44,11 +46,11 @@ export function HomePageView() {
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg" className="bg-ember text-ember-foreground hover:bg-ember/90">
               <a
-                href={whatsappLink(settings?.whatsapp ?? "", "Olá! Quero um orçamento de móvel em madeira maciça.")}
+                href={whatsappLink(settings?.whatsapp ?? "", t("wa.quote"))}
                 target="_blank"
                 rel="noreferrer"
               >
-                {settings?.hero_cta ?? "Pedir orçamento"}
+                {settings?.hero_cta || t("home.heroCta")}
               </a>
             </Button>
             <Button
@@ -57,7 +59,7 @@ export function HomePageView() {
               variant="outline"
               className="border-white/60 bg-transparent text-white hover:bg-white/10 hover:text-white"
             >
-              <SiteLink page="produtos">Ver catálogo</SiteLink>
+              <SiteLink page="produtos">{t("home.viewCatalog")}</SiteLink>
             </Button>
           </div>
         </div>
@@ -66,10 +68,10 @@ export function HomePageView() {
       <section className="border-b border-border bg-sand">
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-4 py-8 sm:grid-cols-4">
           {[
-            { v: `${settings?.years_experience ?? 0}+`, l: "anos de oficina" },
-            { v: `${(settings?.projects_done ?? 0).toLocaleString("pt-BR")}+`, l: "peças entregues" },
-            { v: "100%", l: "madeira maciça" },
-            { v: "5 anos", l: "de garantia estrutural" },
+            { v: `${settings?.years_experience ?? 0}+`, l: t("home.stats.years") },
+            { v: `${formatNumber(settings?.projects_done ?? 0)}+`, l: t("home.stats.pieces") },
+            { v: "100%", l: t("home.stats.solid") },
+            { v: t("home.stats.warrantyValue"), l: t("home.stats.warranty") },
           ].map((s) => (
             <div key={s.l} className="text-center">
               <p className="font-display text-2xl text-wood sm:text-3xl">{s.v}</p>
@@ -82,11 +84,13 @@ export function HomePageView() {
       <section className="mx-auto max-w-6xl px-4 py-16">
         <div className="flex items-end justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">Catálogo</p>
-            <h2 className="mt-2 font-display text-3xl">Escolha por tipo de móvel</h2>
+            <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
+              {t("home.catalogEyebrow")}
+            </p>
+            <h2 className="mt-2 font-display text-3xl">{t("home.catalogTitle")}</h2>
           </div>
           <SiteLink page="produtos" className="hidden text-sm font-medium text-ember hover:underline sm:block">
-            Ver tudo
+            {t("home.viewAll")}
           </SiteLink>
         </div>
         <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -107,7 +111,7 @@ export function HomePageView() {
 
       <section className="bg-sand py-14">
         <div className="mx-auto max-w-6xl px-4">
-          <h2 className="font-display text-3xl">Ou navegue por ambiente</h2>
+          <h2 className="font-display text-3xl">{t("home.roomsTitle")}</h2>
           <div className="mt-6 flex flex-wrap gap-2">
             {ambientes.map((a) => (
               <SiteLink
@@ -124,8 +128,10 @@ export function HomePageView() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16">
-        <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">Da oficina</p>
-        <h2 className="mt-2 font-display text-3xl">Peças em destaque</h2>
+        <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
+          {t("home.workshopEyebrow")}
+        </p>
+        <h2 className="mt-2 font-display text-3xl">{t("home.featuredTitle")}</h2>
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {destaques.map((p) => (
             <ProductCard key={p.id} product={p} showPrice={showPrices} />
@@ -133,7 +139,7 @@ export function HomePageView() {
         </div>
         <div className="mt-10 text-center">
           <Button asChild variant="outline" size="lg">
-            <SiteLink page="produtos">Ver catálogo completo</SiteLink>
+            <SiteLink page="produtos">{t("home.fullCatalog")}</SiteLink>
           </Button>
         </div>
       </section>
@@ -154,13 +160,13 @@ export function HomePageView() {
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
           <img
             src="/produtos/oficina.jpg"
-            alt="Interior da oficina de marcenaria"
+            alt={t("home.howTitle")}
             className="aspect-4/3 w-full rounded-lg object-cover"
             loading="lazy"
           />
           <div>
-            <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">Como funciona</p>
-            <h2 className="mt-2 font-display text-3xl">Do seu espaço à peça pronta</h2>
+            <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">{t("home.howEyebrow")}</p>
+            <h2 className="mt-2 font-display text-3xl">{t("home.howTitle")}</h2>
             <div className="mt-8 space-y-6">
               {etapas.map((e) => (
                 <div key={e.n} className="flex gap-4">
@@ -178,19 +184,21 @@ export function HomePageView() {
 
       <section className="bg-sand py-16">
         <div className="mx-auto max-w-6xl px-4">
-          <h2 className="font-display text-3xl">Quem já tem em casa</h2>
+          <h2 className="font-display text-3xl">{t("home.testimonialsTitle")}</h2>
           <div className="mt-8 grid gap-6 sm:grid-cols-3">
-            {testimonials.map((t) => (
-              <figure key={t.id} className="rounded-lg border border-border bg-card p-6">
+            {testimonials.map((tm) => (
+              <figure key={tm.id} className="rounded-lg border border-border bg-card p-6">
                 <div className="flex gap-0.5 text-ember">
-                  {Array.from({ length: t.rating }).map((_, i) => (
+                  {Array.from({ length: tm.rating }).map((_, i) => (
                     <Star key={i} className="size-4 fill-current" />
                   ))}
                 </div>
-                <blockquote className="mt-4 text-sm leading-relaxed text-foreground/90">"{t.content}"</blockquote>
+                <blockquote className="mt-4 text-sm leading-relaxed text-foreground/90">
+                  "{tm.content}"
+                </blockquote>
                 <figcaption className="mt-4 text-sm font-medium">
-                  {t.author}
-                  <span className="block text-xs font-normal text-muted-foreground">{t.city}</span>
+                  {tm.author}
+                  <span className="block text-xs font-normal text-muted-foreground">{tm.city}</span>
                 </figcaption>
               </figure>
             ))}
@@ -200,22 +208,16 @@ export function HomePageView() {
 
       <section className="mx-auto max-w-6xl px-4 py-20 text-center">
         <ShieldCheck className="mx-auto size-8 text-wood" />
-        <h2 className="mt-4 font-display text-3xl">Vamos tirar seu móvel do papel?</h2>
-        <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-          Mande as medidas do espaço e uma foto. Devolvemos projeto e orçamento sem compromisso.
-        </p>
+        <h2 className="mt-4 font-display text-3xl">{t("home.ctaTitle")}</h2>
+        <p className="mx-auto mt-3 max-w-xl text-muted-foreground">{t("home.ctaText")}</p>
         <div className="mt-7 flex flex-wrap justify-center gap-3">
           <Button asChild size="lg" className="bg-ember text-ember-foreground hover:bg-ember/90">
-            <a
-              href={whatsappLink(settings?.whatsapp ?? "", "Olá! Quero um orçamento.")}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Falar no WhatsApp
+            <a href={whatsappLink(settings?.whatsapp ?? "", t("wa.short"))} target="_blank" rel="noreferrer">
+              {t("home.ctaWhatsapp")}
             </a>
           </Button>
           <Button asChild size="lg" variant="outline">
-            <SiteLink page="contato">Enviar pelo formulário</SiteLink>
+            <SiteLink page="contato">{t("home.ctaForm")}</SiteLink>
           </Button>
         </div>
       </section>
