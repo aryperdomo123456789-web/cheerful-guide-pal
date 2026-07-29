@@ -614,13 +614,16 @@ function AmbientesAdmin() {
 
 function TestimonialsAdmin() {
   const qc = useQueryClient();
-  const { data: testimonials } = useQuery(testimonialsQuery);
+  const siteId = useAdminSite();
+  const { data: testimonials } = useQuery(testimonialsQuery(siteId));
   const [form, setForm] = useState({ author: "", city: "", content: "", rating: 5 });
 
   const add = async () => {
+    if (!siteId) return;
     if (!form.author.trim() || !form.content.trim()) return toast.error("Preencha nome e depoimento");
     const { error } = await supabase.from("testimonials").insert({
       ...form,
+      site_id: siteId,
       sort_order: (testimonials?.length ?? 0) + 1,
     });
     if (error) return toast.error(error.message);
