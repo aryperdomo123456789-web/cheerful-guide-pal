@@ -216,6 +216,7 @@ function ProductsAdmin() {
   };
 
   const save = async () => {
+    if (!siteId) return;
     if (!form.name.trim()) {
       toast.error("Informe o nome do produto");
       return;
@@ -235,6 +236,7 @@ function ProductsAdmin() {
       is_featured: form.is_featured,
       is_active: form.is_active,
       sort_order: Number(form.sort_order) || 0,
+      site_id: siteId,
     };
 
     const { error } = editingId
