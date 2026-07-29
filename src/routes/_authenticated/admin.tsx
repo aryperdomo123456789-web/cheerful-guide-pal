@@ -787,7 +787,8 @@ function LeadsAdmin() {
 
 function SettingsAdmin() {
   const qc = useQueryClient();
-  const { data: settings } = useQuery(settingsQuery);
+  const siteId = useAdminSite();
+  const { data: settings } = useQuery(settingsQuery(siteId));
   const [form, setForm] = useState<SiteSettings | null>(null);
 
   useEffect(() => {
