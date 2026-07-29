@@ -1,7 +1,20 @@
 import { supabase } from "@/integrations/supabase/client";
 
+export type SiteTheme = "rustico" | "moderno";
+
+export type Site = {
+  id: string;
+  slug: string;
+  name: string;
+  theme: string;
+  is_primary: boolean;
+  is_active: boolean;
+  sort_order: number;
+};
+
 export type SiteSettings = {
   id: string;
+  site_id: string;
   brand_name: string;
   tagline: string;
   hero_title: string;
@@ -22,6 +35,7 @@ export type SiteSettings = {
 
 export type Category = {
   id: string;
+  site_id: string;
   name: string;
   slug: string;
   description: string;
@@ -32,6 +46,7 @@ export type Category = {
 
 export type Ambiente = {
   id: string;
+  site_id: string;
   name: string;
   slug: string;
   sort_order: number;
@@ -40,6 +55,7 @@ export type Ambiente = {
 
 export type Product = {
   id: string;
+  site_id: string;
   name: string;
   slug: string;
   short_description: string;
@@ -58,6 +74,7 @@ export type Product = {
 
 export type Testimonial = {
   id: string;
+  site_id: string;
   author: string;
   city: string;
   content: string;
@@ -68,6 +85,7 @@ export type Testimonial = {
 
 export type Lead = {
   id: string;
+  site_id: string | null;
   name: string;
   phone: string;
   email: string;
@@ -78,66 +96,88 @@ export type Lead = {
   created_at: string;
 };
 
-export const settingsQuery = {
-  queryKey: ["site_settings"],
+/** Lista de sites publicados (o painel usa a mesma query). */
+export const sitesQuery = {
+  queryKey: ["sites"],
+  queryFn: async (): Promise<Site[]> => {
+    const { data, error } = await supabase.from("sites").select("*").order("sort_order");
+    if (error) throw error;
+    return (data ?? []) as Site[];
+  },
+};
+
+const empty = "00000000-0000-0000-0000-000000000000";
+
+export const settingsQuery = (siteId?: string | null) => ({
+  queryKey: ["site_settings", siteId ?? null],
+  enabled: Boolean(siteId),
   queryFn: async (): Promise<SiteSettings | null> => {
     const { data, error } = await supabase
       .from("site_settings")
       .select("*")
+      .eq("site_id", siteId ?? empty)
       .limit(1)
       .maybeSingle();
     if (error) throw error;
     return data as SiteSettings | null;
   },
-};
+});
 
-export const categoriesQuery = {
-  queryKey: ["categories"],
+export const categoriesQuery = (siteId?: string | null) => ({
+  queryKey: ["categories", siteId ?? null],
+  enabled: Boolean(siteId),
   queryFn: async (): Promise<Category[]> => {
     const { data, error } = await supabase
       .from("categories")
       .select("*")
+      .eq("site_id", siteId ?? empty)
       .order("sort_order");
     if (error) throw error;
     return (data ?? []) as Category[];
   },
-};
+});
 
-export const ambientesQuery = {
-  queryKey: ["ambientes"],
+export const ambientesQuery = (siteId?: string | null) => ({
+  queryKey: ["ambientes", siteId ?? null],
+  enabled: Boolean(siteId),
   queryFn: async (): Promise<Ambiente[]> => {
     const { data, error } = await supabase
       .from("ambientes")
       .select("*")
+      .eq("site_id", siteId ?? empty)
       .order("sort_order");
     if (error) throw error;
     return (data ?? []) as Ambiente[];
   },
-};
+});
 
-export const productsQuery = {
-  queryKey: ["products"],
+export const productsQuery = (siteId?: string | null) => ({
+  queryKey: ["products", siteId ?? null],
+  enabled: Boolean(siteId),
   queryFn: async (): Promise<Product[]> => {
     const { data, error } = await supabase
       .from("products")
       .select("*")
+      .eq("site_id", siteId ?? empty)
       .order("sort_order");
     if (error) throw error;
     return (data ?? []) as Product[];
   },
-};
+});
 
-export const testimonialsQuery = {
-  queryKey: ["testimonials"],
+export const testimonialsQuery = (siteId?: string | null) => ({
+  queryKey: ["testimonials", siteId ?? null],
+  enabled: Boolean(siteId),
   queryFn: async (): Promise<Testimonial[]> => {
     const { data, error } = await supabase
       .from("testimonials")
       .select("*")
+      .eq("site_id", siteId ?? empty)
       .order("sort_order");
     if (error) throw error;
     return (data ?? []) as Testimonial[];
   },
-};
+});
 
 export function formatPrice(value: number | null | undefined) {
   if (value == null) return "Sob consulta";
