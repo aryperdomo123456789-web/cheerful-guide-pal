@@ -188,6 +188,9 @@ function AdminPage() {
             <TabsContent value="config" className="mt-6">
               <SettingsAdmin key={activeSite ?? "none"} />
             </TabsContent>
+            <TabsContent value="conta" className="mt-6">
+              <AccountAdmin />
+            </TabsContent>
           </Tabs>
         </div>
       </div>
