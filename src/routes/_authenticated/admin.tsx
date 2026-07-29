@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
+import { CURRENCIES, LANGUAGES } from "@/lib/i18n";
 import { uploadProductImage } from "@/lib/upload";
 import {
   ambientesQuery,
