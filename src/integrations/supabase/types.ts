@@ -237,6 +237,7 @@ export type Database = {
           address: string
           brand_name: string
           created_at: string
+          currency: string
           email: string
           facebook: string
           hero_cta: string
@@ -244,6 +245,7 @@ export type Database = {
           hero_title: string
           id: string
           instagram: string
+          language: string
           opening_hours: string
           phone: string
           projects_done: number
@@ -259,6 +261,7 @@ export type Database = {
           address?: string
           brand_name?: string
           created_at?: string
+          currency?: string
           email?: string
           facebook?: string
           hero_cta?: string
@@ -266,6 +269,7 @@ export type Database = {
           hero_title?: string
           id?: string
           instagram?: string
+          language?: string
           opening_hours?: string
           phone?: string
           projects_done?: number
@@ -281,6 +285,7 @@ export type Database = {
           address?: string
           brand_name?: string
           created_at?: string
+          currency?: string
           email?: string
           facebook?: string
           hero_cta?: string
@@ -288,6 +293,7 @@ export type Database = {
           hero_title?: string
           id?: string
           instagram?: string
+          language?: string
           opening_hours?: string
           phone?: string
           projects_done?: number

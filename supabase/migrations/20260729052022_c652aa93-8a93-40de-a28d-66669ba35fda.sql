@@ -1,0 +1,3 @@
+ALTER TABLE public.site_settings
+  ADD COLUMN IF NOT EXISTS language text NOT NULL DEFAULT 'pt-BR',
+  ADD COLUMN IF NOT EXISTS currency text NOT NULL DEFAULT 'BRL';
