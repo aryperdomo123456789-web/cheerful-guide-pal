@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { ExternalLink, LogOut, Plus, Trash2, Upload } from "lucide-react";
 
@@ -26,6 +26,7 @@ import {
   formatPrice,
   productsQuery,
   settingsQuery,
+  sitesQuery,
   slugify,
   testimonialsQuery,
   type Ambiente,
