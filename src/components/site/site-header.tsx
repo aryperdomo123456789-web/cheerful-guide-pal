@@ -42,7 +42,10 @@ export function SiteHeader() {
           ))}
         </nav>
 
+        <SiteSwitcher className="hidden h-9 w-[190px] text-xs lg:flex" />
+
         <Button asChild className="hidden bg-ember text-ember-foreground hover:bg-ember/90 sm:inline-flex">
+
           <a
             href={whatsappLink(settings?.whatsapp ?? "", "Olá! Vim pelo site e quero um orçamento.")}
             target="_blank"
