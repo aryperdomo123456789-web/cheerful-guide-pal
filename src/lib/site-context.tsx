@@ -144,7 +144,7 @@ export function SiteLink({
     to: target.to,
     params: target.params,
     search,
-  } as never;
+  } as unknown as Record<string, unknown>;
 
-  return <Link {...props}>{children}</Link>;
+  return <Link {...(props as never)}>{children}</Link>;
 }
