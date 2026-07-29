@@ -21,6 +21,7 @@ import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/
 import { Route as SSiteRouteRouteImport } from './routes/s/$site/route'
 import { Route as SSiteIndexRouteImport } from './routes/s/$site/index'
 import { Route as SSiteProdutosRouteImport } from './routes/s/$site/produtos'
+import { Route as SSiteProdutoSlugRouteImport } from './routes/s/$site/produto.$slug'
 
 const SobreRoute = SobreRouteImport.update({
   id: '/sobre',
@@ -81,6 +82,11 @@ const SSiteProdutosRoute = SSiteProdutosRouteImport.update({
   path: '/produtos',
   getParentRoute: () => SSiteRouteRoute,
 } as any)
+const SSiteProdutoSlugRoute = SSiteProdutoSlugRouteImport.update({
+  id: '/produto/$slug',
+  path: '/produto/$slug',
+  getParentRoute: () => SSiteRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/produtos/': typeof ProdutosIndexRoute
   '/s/$site/produtos': typeof SSiteProdutosRoute
   '/s/$site/': typeof SSiteIndexRoute
+  '/s/$site/produto/$slug': typeof SSiteProdutoSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -105,6 +112,7 @@ export interface FileRoutesByTo {
   '/produtos': typeof ProdutosIndexRoute
   '/s/$site/produtos': typeof SSiteProdutosRoute
   '/s/$site': typeof SSiteIndexRoute
+  '/s/$site/produto/$slug': typeof SSiteProdutoSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -120,6 +128,7 @@ export interface FileRoutesById {
   '/produtos/': typeof ProdutosIndexRoute
   '/s/$site/produtos': typeof SSiteProdutosRoute
   '/s/$site/': typeof SSiteIndexRoute
+  '/s/$site/produto/$slug': typeof SSiteProdutoSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -135,6 +144,7 @@ export interface FileRouteTypes {
     | '/produtos/'
     | '/s/$site/produtos'
     | '/s/$site/'
+    | '/s/$site/produto/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -146,6 +156,7 @@ export interface FileRouteTypes {
     | '/produtos'
     | '/s/$site/produtos'
     | '/s/$site'
+    | '/s/$site/produto/$slug'
   id:
     | '__root__'
     | '/'
@@ -160,6 +171,7 @@ export interface FileRouteTypes {
     | '/produtos/'
     | '/s/$site/produtos'
     | '/s/$site/'
+    | '/s/$site/produto/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -258,6 +270,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SSiteProdutosRouteImport
       parentRoute: typeof SSiteRouteRoute
     }
+    '/s/$site/produto/$slug': {
+      id: '/s/$site/produto/$slug'
+      path: '/produto/$slug'
+      fullPath: '/s/$site/produto/$slug'
+      preLoaderRoute: typeof SSiteProdutoSlugRouteImport
+      parentRoute: typeof SSiteRouteRoute
+    }
   }
 }
 
@@ -289,11 +308,13 @@ const ProdutosRouteWithChildren = ProdutosRoute._addFileChildren(
 interface SSiteRouteRouteChildren {
   SSiteProdutosRoute: typeof SSiteProdutosRoute
   SSiteIndexRoute: typeof SSiteIndexRoute
+  SSiteProdutoSlugRoute: typeof SSiteProdutoSlugRoute
 }
 
 const SSiteRouteRouteChildren: SSiteRouteRouteChildren = {
   SSiteProdutosRoute: SSiteProdutosRoute,
   SSiteIndexRoute: SSiteIndexRoute,
+  SSiteProdutoSlugRoute: SSiteProdutoSlugRoute,
 }
 
 const SSiteRouteRouteWithChildren = SSiteRouteRoute._addFileChildren(
