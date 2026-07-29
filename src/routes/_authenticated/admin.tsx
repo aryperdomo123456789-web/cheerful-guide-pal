@@ -167,6 +167,7 @@ function AdminPage() {
               <TabsTrigger value="depoimentos">Depoimentos</TabsTrigger>
               <TabsTrigger value="orcamentos">Orçamentos</TabsTrigger>
               <TabsTrigger value="config">Configurações</TabsTrigger>
+              <TabsTrigger value="conta">Minha conta</TabsTrigger>
             </TabsList>
 
             <TabsContent value="produtos" className="mt-6">
