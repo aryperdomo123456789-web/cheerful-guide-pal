@@ -107,57 +107,90 @@ function AdminPage() {
     );
   }
 
+  const current = sites?.find((s) => s.id === activeSite) ?? null;
+
   return (
-    <div className="min-h-screen bg-sand">
-      <header className="border-b border-border bg-card">
-        <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-4">
-          <div className="mr-auto">
-            <p className="font-display text-xl">Painel do site</p>
-            <p className="text-xs text-muted-foreground">Gestão de conteúdo da marcenaria</p>
+    <AdminSiteContext.Provider value={activeSite}>
+      <div className="min-h-screen bg-sand">
+        <header className="border-b border-border bg-card">
+          <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-4">
+            <div className="mr-auto">
+              <p className="font-display text-xl">Painel dos sites</p>
+              <p className="text-xs text-muted-foreground">
+                Gerencie todas as marcas em um só lugar
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Globe className="size-4 text-muted-foreground" />
+              <Select value={activeSite ?? ""} onValueChange={(v) => setActiveSite(v)}>
+                <SelectTrigger className="w-56">
+                  <SelectValue placeholder="Selecione o site" />
+                </SelectTrigger>
+                <SelectContent>
+                  {(sites ?? []).map((s) => (
+                    <SelectItem key={s.id} value={s.id}>
+                      {s.name}
+                      {s.is_primary ? " (principal)" : ""}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {current?.is_primary ? (
+              <Button asChild variant="outline" size="sm">
+                <Link to="/">
+                  <ExternalLink className="mr-2 size-4" /> Ver site
+                </Link>
+              </Button>
+            ) : current ? (
+              <Button asChild variant="outline" size="sm">
+                <Link to="/s/$site" params={{ site: current.slug }}>
+                  <ExternalLink className="mr-2 size-4" /> Ver site
+                </Link>
+              </Button>
+            ) : null}
+
+            <Button variant="ghost" size="sm" onClick={signOut}>
+              <LogOut className="mr-2 size-4" /> Sair
+            </Button>
           </div>
-          <Button asChild variant="outline" size="sm">
-            <Link to="/">
-              <ExternalLink className="mr-2 size-4" /> Ver site
-            </Link>
-          </Button>
-          <Button variant="ghost" size="sm" onClick={signOut}>
-            <LogOut className="mr-2 size-4" /> Sair
-          </Button>
+        </header>
+
+        <div className="mx-auto max-w-7xl px-4 py-8">
+          <Tabs defaultValue="produtos">
+            <TabsList className="flex h-auto flex-wrap justify-start">
+              <TabsTrigger value="produtos">Produtos</TabsTrigger>
+              <TabsTrigger value="categorias">Categorias</TabsTrigger>
+              <TabsTrigger value="ambientes">Ambientes</TabsTrigger>
+              <TabsTrigger value="depoimentos">Depoimentos</TabsTrigger>
+              <TabsTrigger value="orcamentos">Orçamentos</TabsTrigger>
+              <TabsTrigger value="config">Configurações</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="produtos" className="mt-6">
+              <ProductsAdmin key={activeSite ?? "none"} />
+            </TabsContent>
+            <TabsContent value="categorias" className="mt-6">
+              <CategoriesAdmin key={activeSite ?? "none"} />
+            </TabsContent>
+            <TabsContent value="ambientes" className="mt-6">
+              <AmbientesAdmin key={activeSite ?? "none"} />
+            </TabsContent>
+            <TabsContent value="depoimentos" className="mt-6">
+              <TestimonialsAdmin key={activeSite ?? "none"} />
+            </TabsContent>
+            <TabsContent value="orcamentos" className="mt-6">
+              <LeadsAdmin key={activeSite ?? "none"} />
+            </TabsContent>
+            <TabsContent value="config" className="mt-6">
+              <SettingsAdmin key={activeSite ?? "none"} />
+            </TabsContent>
+          </Tabs>
         </div>
-      </header>
-
-      <div className="mx-auto max-w-7xl px-4 py-8">
-        <Tabs defaultValue="produtos">
-          <TabsList className="flex h-auto flex-wrap justify-start">
-            <TabsTrigger value="produtos">Produtos</TabsTrigger>
-            <TabsTrigger value="categorias">Categorias</TabsTrigger>
-            <TabsTrigger value="ambientes">Ambientes</TabsTrigger>
-            <TabsTrigger value="depoimentos">Depoimentos</TabsTrigger>
-            <TabsTrigger value="orcamentos">Orçamentos</TabsTrigger>
-            <TabsTrigger value="config">Configurações</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="produtos" className="mt-6">
-            <ProductsAdmin />
-          </TabsContent>
-          <TabsContent value="categorias" className="mt-6">
-            <CategoriesAdmin />
-          </TabsContent>
-          <TabsContent value="ambientes" className="mt-6">
-            <AmbientesAdmin />
-          </TabsContent>
-          <TabsContent value="depoimentos" className="mt-6">
-            <TestimonialsAdmin />
-          </TabsContent>
-          <TabsContent value="orcamentos" className="mt-6">
-            <LeadsAdmin />
-          </TabsContent>
-          <TabsContent value="config" className="mt-6">
-            <SettingsAdmin />
-          </TabsContent>
-        </Tabs>
       </div>
-    </div>
+    </AdminSiteContext.Provider>
   );
 }
 
