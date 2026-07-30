@@ -217,7 +217,7 @@ export function HomePageView() {
 
       <section className="site-container py-14 text-center sm:py-20">
         <ShieldCheck className="mx-auto size-8 text-wood" />
-        <h2 className="mt-4 font-display text-3xl">{t("home.ctaTitle")}</h2>
+        <h2 className="mt-4 font-display text-2xl sm:text-3xl">{t("home.ctaTitle")}</h2>
         <p className="mx-auto mt-3 max-w-xl text-muted-foreground">{t("home.ctaText")}</p>
         <div className="mt-7 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:flex-wrap">
           <Button asChild size="lg" className="bg-ember text-ember-foreground hover:bg-ember/90">
