@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { useI18n } from "@/lib/i18n";
 import { SiteLink, useSite } from "@/lib/site-context";
+import { useAutoTranslate } from "@/lib/auto-translate";
 import type { ProductSearch } from "@/lib/product-search";
 
 export function ProductsPageView({
@@ -28,6 +29,7 @@ export function ProductsPageView({
 }) {
   const { settings, products, categories, ambientes, isLoading } = useSite();
   const { t, language } = useI18n();
+  const tr = useAutoTranslate();
   const showPrices = settings?.show_prices ?? true;
   const [filtersOpen, setFiltersOpen] = useState(false);
 
@@ -127,7 +129,7 @@ export function ProductsPageView({
                   key={c.id}
                   active={search.categoria === c.slug}
                   onClick={() => setSearch({ categoria: c.slug })}
-                  label={c.name}
+                  label={tr(c.name)}
                 />
               ))}
             </div>
@@ -146,7 +148,7 @@ export function ProductsPageView({
                   key={a.id}
                   active={search.ambiente === a.slug}
                   onClick={() => setSearch({ ambiente: a.slug })}
-                  label={a.name}
+                  label={tr(a.name)}
                 />
               ))}
             </div>

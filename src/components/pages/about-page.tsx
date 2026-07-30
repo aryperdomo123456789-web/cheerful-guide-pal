@@ -4,10 +4,12 @@ import { SiteLayout } from "@/components/site/site-layout";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { SiteLink, useSite } from "@/lib/site-context";
+import { useAutoTranslate } from "@/lib/auto-translate";
 
 export function AboutPageView() {
   const { settings } = useSite();
   const { t, formatNumber } = useI18n();
+  const tr = useAutoTranslate();
 
   const valores = [
     { icon: Hammer, title: t("about.value1.title"), text: t("about.value1.text") },
@@ -32,7 +34,7 @@ export function AboutPageView() {
         />
         <div>
           <h2 className="font-display text-2xl sm:text-3xl">{t("about.subtitle")}</h2>
-          <p className="mt-4 whitespace-pre-line text-muted-foreground">{settings?.about_text}</p>
+          <p className="mt-4 whitespace-pre-line text-muted-foreground">{tr(settings?.about_text)}</p>
           <div className="mt-8 grid grid-cols-2 gap-4 sm:gap-6">
             <div>
               <p className="font-display text-2xl text-wood sm:text-3xl">{settings?.years_experience}+</p>

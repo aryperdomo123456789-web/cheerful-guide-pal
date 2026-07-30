@@ -8,11 +8,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { SiteLink, useSite } from "@/lib/site-context";
+import { useAutoTranslate } from "@/lib/auto-translate";
 import { whatsappLink } from "@/lib/site-data";
 
 export function ProductDetailView({ slug }: { slug: string }) {
   const { settings, products, categories, ambientes, isLoading } = useSite();
   const { t, formatPrice } = useI18n();
+  const tr = useAutoTranslate();
   const [active, setActive] = useState(0);
 
   const product = products.find((p) => p.slug === slug);
@@ -58,7 +60,7 @@ export function ProductDetailView({ slug }: { slug: string }) {
         <div className="mt-6 grid gap-8 lg:grid-cols-2 lg:gap-10">
           <div>
             <div className="overflow-hidden rounded-lg border border-border bg-muted">
-              <img src={images[active]} alt={product.name} className="aspect-4/3 w-full object-cover" />
+              <img src={images[active]} alt={tr(product.name)} className="aspect-4/3 w-full object-cover" />
             </div>
             {images.length > 1 ? (
               <div className="mt-3 flex gap-3 overflow-x-auto pb-1">
@@ -80,15 +82,15 @@ export function ProductDetailView({ slug }: { slug: string }) {
 
           <div>
             <div className="flex flex-wrap gap-2">
-              {category ? <Badge variant="secondary">{category.name}</Badge> : null}
-              {ambiente ? <Badge variant="outline">{ambiente.name}</Badge> : null}
+              {category ? <Badge variant="secondary">{tr(category.name)}</Badge> : null}
+              {ambiente ? <Badge variant="outline">{tr(ambiente.name)}</Badge> : null}
               {product.is_featured ? (
                 <Badge className="bg-ember text-ember-foreground">{t("card.featured")}</Badge>
               ) : null}
             </div>
 
-            <h1 className="mt-4 font-display text-2xl leading-tight sm:text-3xl lg:text-4xl">{product.name}</h1>
-            <p className="mt-3 text-muted-foreground">{product.short_description}</p>
+            <h1 className="mt-4 font-display text-2xl leading-tight sm:text-3xl lg:text-4xl">{tr(product.name)}</h1>
+            <p className="mt-3 text-muted-foreground">{tr(product.short_description)}</p>
 
             {showPrice ? (
               <div className="mt-6 flex flex-wrap items-end gap-3">
@@ -109,11 +111,11 @@ export function ProductDetailView({ slug }: { slug: string }) {
 
             <ul className="mt-6 space-y-3 text-sm">
               <li className="flex gap-3">
-                <TreePine className="mt-0.5 size-4 shrink-0 text-wood" /> {product.wood_type}
+                <TreePine className="mt-0.5 size-4 shrink-0 text-wood" /> {tr(product.wood_type)}
               </li>
               {product.dimensions ? (
                 <li className="flex gap-3">
-                  <Ruler className="mt-0.5 size-4 shrink-0 text-wood" /> {product.dimensions}
+                  <Ruler className="mt-0.5 size-4 shrink-0 text-wood" /> {tr(product.dimensions)}
                 </li>
               ) : null}
             </ul>
@@ -135,7 +137,7 @@ export function ProductDetailView({ slug }: { slug: string }) {
               <div className="mt-8">
                 <h2 className="font-display text-xl">{t("detail.about")}</h2>
                 <p className="mt-2 whitespace-pre-line text-sm text-muted-foreground">
-                  {product.description}
+                  {tr(product.description)}
                 </p>
               </div>
             ) : null}

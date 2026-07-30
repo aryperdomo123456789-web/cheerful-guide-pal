@@ -6,7 +6,9 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
+import { useI18n } from "@/lib/i18n";
 import { useSite } from "@/lib/site-context";
+import { useAutoTranslate } from "@/lib/auto-translate";
 
 export const POPUP_LEAD_TAG = "Popup - Cupom";
 
@@ -17,6 +19,8 @@ const schema = z.object({
 
 export function PromoPopup() {
   const { siteId, settings } = useSite();
+  const { t } = useI18n();
+  const tr = useAutoTranslate();
   const enabled = settings?.popup_enabled ?? false;
   const storageKey = siteId ? `promo-popup-${siteId}` : "";
 
@@ -54,7 +58,7 @@ export function PromoPopup() {
     event.preventDefault();
     const parsed = schema.safeParse(values);
     if (!parsed.success) {
-      toast.error(parsed.error.issues[0]?.message ?? "Dados inválidos");
+      toast.error(parsed.error.issues[0]?.message ?? t("popup.error"));
       return;
     }
     setSending(true);
@@ -69,7 +73,7 @@ export function PromoPopup() {
     });
     setSending(false);
     if (error) {
-      toast.error("Não foi possível cadastrar. Tente novamente.");
+      toast.error(t("popup.error"));
       return;
     }
     setDone(true);
@@ -91,7 +95,7 @@ export function PromoPopup() {
         <button
           type="button"
           onClick={close}
-          aria-label="Fechar"
+          aria-label={t("popup.close")}
           className="absolute right-3 top-3 z-10 rounded-full bg-background/80 p-2 text-foreground transition-colors hover:bg-background"
         >
           <X className="size-4" />
@@ -109,10 +113,10 @@ export function PromoPopup() {
           {done ? (
             <>
               <h2 className="font-display text-2xl leading-tight sm:text-3xl">
-                Cadastro concluído!
+                {t("popup.doneTitle")}
               </h2>
               <p className="text-sm text-muted-foreground">
-                Use o cupom abaixo na sua primeira compra.
+                {t("popup.doneText")}
               </p>
               <p className="rounded-md border border-dashed border-border py-3 font-display text-2xl tracking-widest text-ember">
                 {settings?.popup_coupon || "BEMVINDO5"}
@@ -121,17 +125,17 @@ export function PromoPopup() {
                 onClick={close}
                 className="bg-ember text-ember-foreground hover:bg-ember/90"
               >
-                Acessar a loja
+                {t("popup.enter")}
               </Button>
             </>
           ) : (
             <form className="grid gap-4" onSubmit={submit}>
               <h2 className="font-display text-2xl leading-tight sm:text-3xl">
-                {settings?.popup_title}
+                {tr(settings?.popup_title)}
               </h2>
-              <p className="text-sm text-muted-foreground">{settings?.popup_subtitle}</p>
+              <p className="text-sm text-muted-foreground">{tr(settings?.popup_subtitle)}</p>
               <Input
-                placeholder="Digite seu nome"
+                placeholder={t("popup.namePlaceholder")}
                 maxLength={100}
                 value={values.name}
                 onChange={(e) => setValues((v) => ({ ...v, name: e.target.value }))}
@@ -139,7 +143,7 @@ export function PromoPopup() {
               />
               <Input
                 type="email"
-                placeholder="Digite seu e-mail"
+                placeholder={t("popup.emailPlaceholder")}
                 maxLength={255}
                 value={values.email}
                 onChange={(e) => setValues((v) => ({ ...v, email: e.target.value }))}
@@ -150,14 +154,14 @@ export function PromoPopup() {
                 disabled={sending}
                 className="bg-ember text-ember-foreground hover:bg-ember/90"
               >
-                {sending ? "Enviando..." : settings?.popup_cta || "Gerar cupom"}
+                {sending ? t("form.sending") : tr(settings?.popup_cta) || t("popup.cta")}
               </Button>
               <button
                 type="button"
                 onClick={close}
                 className="text-sm underline underline-offset-4 text-muted-foreground hover:text-foreground"
               >
-                Acessar a loja
+                {t("popup.enter")}
               </button>
             </form>
           )}

@@ -8,11 +8,13 @@ import { SiteSwitcher } from "@/components/site/site-switcher";
 import { KeeHeader } from "@/components/site/kee-header";
 import { useI18n } from "@/lib/i18n";
 import { SiteLink, useSite, type SitePage } from "@/lib/site-context";
+import { useAutoTranslate } from "@/lib/auto-translate";
 import { whatsappLink } from "@/lib/site-data";
 
 export function SiteHeader() {
   const { settings, theme } = useSite();
   const { t } = useI18n();
+  const tr = useAutoTranslate();
   const [open, setOpen] = useState(false);
 
 
@@ -34,7 +36,7 @@ export function SiteHeader() {
             {settings?.brand_name ?? "Marcenaria"}
           </span>
           <span className="truncate text-[0.6rem] uppercase tracking-[0.18em] text-muted-foreground sm:text-[0.65rem] sm:tracking-[0.22em]">
-            {settings?.tagline ?? ""}
+            {tr(settings?.tagline) || ""}
           </span>
         </SiteLink>
 

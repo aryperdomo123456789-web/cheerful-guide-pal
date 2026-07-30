@@ -1,6 +1,8 @@
 import { useEffect, type ReactNode } from "react";
 
+import { useI18n } from "@/lib/i18n";
 import { useSite } from "@/lib/site-context";
+import { useAutoTranslate } from "@/lib/auto-translate";
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
 import { PromoPopup } from "./promo-popup";
@@ -8,6 +10,7 @@ import { WhatsappFab } from "./whatsapp-fab";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   const { theme, notFound, settings } = useSite();
+  const { t, language } = useI18n();
 
   const faviconUrl = settings?.favicon_url ?? "";
 
@@ -22,14 +25,19 @@ export function SiteLayout({ children }: { children: ReactNode }) {
     link.href = faviconUrl;
   }, [faviconUrl]);
 
+  useEffect(() => {
+    if (typeof document === "undefined" || !language) return;
+    document.documentElement.lang = language;
+  }, [language]);
+
 
   if (notFound) {
     return (
       <div className="flex min-h-screen items-center justify-center px-4 text-center">
         <div>
-          <h1 className="font-display text-3xl">Site não encontrado</h1>
+          <h1 className="font-display text-3xl">{t("site.notFound")}</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Este endereço não corresponde a nenhum site publicado.
+            {t("site.notFoundText")}
           </p>
         </div>
       </div>

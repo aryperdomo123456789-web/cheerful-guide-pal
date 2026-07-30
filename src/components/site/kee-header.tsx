@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useI18n } from "@/lib/i18n";
 import { SiteLink, useSite, useSiteHref } from "@/lib/site-context";
+import { useAutoTranslate } from "@/lib/auto-translate";
 
 /**
  * Cabeçalho no estilo loja (Site 2 / tema K&E):
@@ -16,6 +17,7 @@ import { SiteLink, useSite, useSiteHref } from "@/lib/site-context";
 export function KeeHeader() {
   const { settings, categories, ambientes } = useSite();
   const { t } = useI18n();
+  const tr = useAutoTranslate();
   const href = useSiteHref();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -36,11 +38,11 @@ export function KeeHeader() {
   const catLink = (slug: string) => ({ categoria: slug });
 
   const flat = [
-    { label: "Móveis Palhinha", search: catLink("moveis-palhinha") },
-    { label: "Lançamento ⭐", search: catLink("lancamentos") },
-    { label: "Conjuntos", search: catLink("conjuntos") },
-    { label: "Promoções", search: catLink("promocoes") },
-    { label: "Pronta Entrega", search: catLink("pronta-entrega") },
+    { label: t("kee.cane"), search: catLink("moveis-palhinha") },
+    { label: `${t("kee.new")} ⭐`, search: catLink("lancamentos") },
+    { label: t("kee.sets"), search: catLink("conjuntos") },
+    { label: t("kee.promos"), search: catLink("promocoes") },
+    { label: t("kee.ready"), search: catLink("pronta-entrega") },
   ];
 
   const menuCats = categories.filter(
@@ -51,7 +53,7 @@ export function KeeHeader() {
     <header className="sticky top-0 z-40">
       {/* faixa de aviso */}
       <div className="bg-wood py-2 text-center text-[0.7rem] font-medium text-primary-foreground sm:text-xs">
-        {settings?.tagline || t("nav.quote")}
+        {tr(settings?.tagline) || t("nav.quote")}
       </div>
 
       {/* contato + social */}
@@ -83,7 +85,7 @@ export function KeeHeader() {
               {settings?.brand_name ?? "K&E"}
             </span>
             <span className="truncate text-[0.55rem] uppercase tracking-[0.3em] opacity-80 sm:text-[0.65rem]">
-              Móveis Rústicos
+              {t("kee.rustic")}
             </span>
           </SiteLink>
 
@@ -91,12 +93,12 @@ export function KeeHeader() {
             <input
               value={term}
               onChange={(e) => setTerm(e.target.value)}
-              placeholder="Olá, o que você procura?"
+              placeholder={t("kee.searchPlaceholder")}
               className="h-12 w-full rounded-md bg-background px-4 pr-12 text-sm text-foreground outline-hidden"
             />
             <button
               type="submit"
-              aria-label="Buscar"
+              aria-label={t("kee.search")}
               className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground"
             >
               <Search className="size-5" />
@@ -106,9 +108,9 @@ export function KeeHeader() {
           <div className="ml-auto flex items-center gap-3 sm:gap-5 md:ml-0">
             <Link to="/auth" className="hidden items-center gap-2 text-sm sm:flex">
               <User className="size-5" />
-              Minha conta
+              {t("kee.account")}
             </Link>
-            <SiteLink page="produtos" className="flex items-center gap-1 text-sm" aria-label="Catálogo">
+            <SiteLink page="produtos" className="flex items-center gap-1 text-sm" aria-label={t("kee.catalog")}>
               <ShoppingCart className="size-5" />
             </SiteLink>
 
@@ -129,7 +131,7 @@ export function KeeHeader() {
                 </div>
                 <nav className="mt-4 flex flex-col gap-1 pb-10">
                   <SiteLink page="produtos" onClick={() => setOpen(false)} className="rounded-md px-3 py-3 font-medium">
-                    Todos os móveis
+                    {t("kee.allFurniture")}
                   </SiteLink>
                   {flat.map((item) => (
                     <SiteLink
@@ -143,7 +145,7 @@ export function KeeHeader() {
                     </SiteLink>
                   ))}
                   <p className="mt-3 px-3 text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
-                    Categorias
+                    {t("kee.categories")}
                   </p>
                   {menuCats.map((c) => (
                     <SiteLink
@@ -153,11 +155,11 @@ export function KeeHeader() {
                       onClick={() => setOpen(false)}
                       className="rounded-md px-3 py-2 text-sm hover:bg-muted"
                     >
-                      {c.name}
+                      {tr(c.name)}
                     </SiteLink>
                   ))}
                   <p className="mt-3 px-3 text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
-                    Ambientes
+                    {t("kee.rooms")}
                   </p>
                   {ambientes.map((a) => (
                     <SiteLink
@@ -167,7 +169,7 @@ export function KeeHeader() {
                       onClick={() => setOpen(false)}
                       className="rounded-md px-3 py-2 text-sm hover:bg-muted"
                     >
-                      {a.name}
+                      {tr(a.name)}
                     </SiteLink>
                   ))}
                   <SiteLink page="sobre" onClick={() => setOpen(false)} className="rounded-md px-3 py-2 text-sm">
@@ -187,10 +189,10 @@ export function KeeHeader() {
           <input
             value={term}
             onChange={(e) => setTerm(e.target.value)}
-            placeholder="Olá, o que você procura?"
+            placeholder={t("kee.searchPlaceholder")}
             className="h-11 w-full rounded-md bg-background px-4 pr-11 text-sm text-foreground outline-hidden"
           />
-          <button type="submit" aria-label="Buscar" className="absolute right-6 top-1/2 -translate-y-1/2 text-muted-foreground">
+          <button type="submit" aria-label={t("kee.search")} className="absolute right-6 top-1/2 -translate-y-1/2 text-muted-foreground">
             <Search className="size-5" />
           </button>
         </form>
@@ -205,7 +207,7 @@ export function KeeHeader() {
           <div className="relative" onMouseEnter={() => setOpenMenu("moveis")}>
             <SiteLink page="produtos" className="flex items-center gap-2 px-3 py-4 text-sm">
               <Menu className="size-4" />
-              Móveis
+              {t("kee.furniture")}
               <ChevronDown className="size-3" />
             </SiteLink>
             {openMenu === "moveis" ? (
@@ -217,7 +219,7 @@ export function KeeHeader() {
                     search={catLink(c.slug)}
                     className="rounded px-2 py-1.5 text-sm hover:bg-muted"
                   >
-                    {c.name}
+                    {tr(c.name)}
                   </SiteLink>
                 ))}
               </div>
@@ -232,7 +234,7 @@ export function KeeHeader() {
 
           <div className="relative" onMouseEnter={() => setOpenMenu("ambientes")}>
             <SiteLink page="produtos" className="flex items-center gap-2 px-3 py-4 text-sm">
-              Ambientes
+              {t("kee.rooms")}
               <ChevronDown className="size-3" />
             </SiteLink>
             {openMenu === "ambientes" ? (
@@ -244,7 +246,7 @@ export function KeeHeader() {
                     search={{ ambiente: a.slug }}
                     className="rounded px-2 py-1.5 text-sm hover:bg-muted"
                   >
-                    {a.name}
+                    {tr(a.name)}
                   </SiteLink>
                 ))}
               </div>
