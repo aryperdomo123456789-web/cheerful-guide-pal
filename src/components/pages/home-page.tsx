@@ -66,7 +66,7 @@ export function HomePageView() {
               asChild
               size="lg"
               variant="outline"
-              className="border-white/60 bg-transparent text-white hover:bg-white/10 hover:text-white"
+              className="w-full border-white/60 bg-transparent text-white hover:bg-white/10 hover:text-white sm:w-auto"
             >
               <SiteLink page="produtos">{t("home.viewCatalog")}</SiteLink>
             </Button>
