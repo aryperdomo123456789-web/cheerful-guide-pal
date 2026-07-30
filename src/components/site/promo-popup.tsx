@@ -55,7 +55,7 @@ export function PromoPopup() {
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const parsed = schema.safeParse(values);
+    const parsed = popupLeadSchema.safeParse(values);
     if (!parsed.success) {
       toast.error(parsed.error.issues[0]?.message ?? t("popup.error"));
       return;
