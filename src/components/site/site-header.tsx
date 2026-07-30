@@ -5,14 +5,16 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { SiteSwitcher } from "@/components/site/site-switcher";
+import { KeeHeader } from "@/components/site/kee-header";
 import { useI18n } from "@/lib/i18n";
 import { SiteLink, useSite, type SitePage } from "@/lib/site-context";
 import { whatsappLink } from "@/lib/site-data";
 
 export function SiteHeader() {
-  const { settings } = useSite();
+  const { settings, theme } = useSite();
   const { t } = useI18n();
   const [open, setOpen] = useState(false);
+
 
   const navItems: { page: SitePage; label: string }[] = [
     { page: "home", label: t("nav.home") },
@@ -21,7 +23,10 @@ export function SiteHeader() {
     { page: "contato", label: t("nav.contact") },
   ];
 
+  if (theme === "kee") return <KeeHeader />;
+
   return (
+
     <header className="sticky top-0 z-40 border-b border-border/70 bg-background/95 backdrop-blur">
       <div className="site-container flex h-16 items-center gap-3 sm:h-20 sm:gap-4">
         <SiteLink page="home" className="mr-auto flex min-w-0 flex-col leading-none">
