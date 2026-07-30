@@ -5,14 +5,16 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { SiteSwitcher } from "@/components/site/site-switcher";
+import { KeeHeader } from "@/components/site/kee-header";
 import { useI18n } from "@/lib/i18n";
 import { SiteLink, useSite, type SitePage } from "@/lib/site-context";
 import { whatsappLink } from "@/lib/site-data";
 
 export function SiteHeader() {
-  const { settings } = useSite();
+  const { settings, theme } = useSite();
   const { t } = useI18n();
   const [open, setOpen] = useState(false);
+
 
   const navItems: { page: SitePage; label: string }[] = [
     { page: "home", label: t("nav.home") },
