@@ -3,6 +3,7 @@ import { useEffect, type ReactNode } from "react";
 import { useSite } from "@/lib/site-context";
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
+import { PromoPopup } from "./promo-popup";
 import { WhatsappFab } from "./whatsapp-fab";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
@@ -41,6 +42,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       <main className="flex-1">{children}</main>
       <SiteFooter />
       <WhatsappFab />
+      <PromoPopup />
     </div>
   );
 }
