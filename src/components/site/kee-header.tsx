@@ -106,10 +106,6 @@ export function KeeHeader() {
           </form>
 
           <div className="ml-auto flex items-center gap-1 sm:gap-3 md:ml-0">
-            <Link to="/auth" className="hidden min-h-11 items-center gap-2 px-2 text-sm sm:flex">
-              <User className="size-5" />
-              {t("kee.account")}
-            </Link>
             <SiteLink
               page="produtos"
               className="flex size-11 items-center justify-center"
