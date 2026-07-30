@@ -28,7 +28,7 @@ export function SiteFooter() {
                 href={settings.instagram}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-full border border-sidebar-border p-2 hover:bg-sidebar-accent"
+                className="flex size-11 items-center justify-center rounded-full border border-sidebar-border hover:bg-sidebar-accent sm:size-9"
               >
                 <Instagram className="size-4" />
               </a>
@@ -38,7 +38,7 @@ export function SiteFooter() {
                 href={settings.facebook}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-full border border-sidebar-border p-2 hover:bg-sidebar-accent"
+                className="flex size-11 items-center justify-center rounded-full border border-sidebar-border hover:bg-sidebar-accent sm:size-9"
               >
                 <Facebook className="size-4" />
               </a>
@@ -50,13 +50,13 @@ export function SiteFooter() {
           <p className="text-xs uppercase tracking-[0.2em] text-sidebar-foreground/50">
             {t("footer.categories")}
           </p>
-          <ul className="mt-4 space-y-2 text-sm">
+          <ul className="mt-2 text-sm sm:mt-4 sm:space-y-2">
             {categories.slice(0, 6).map((c) => (
               <li key={c.id}>
                 <SiteLink
                   page="produtos"
                   search={{ categoria: c.slug }}
-                  className="text-sidebar-foreground/80 hover:text-sidebar-foreground"
+                  className="inline-flex min-h-11 items-center text-sidebar-foreground/80 hover:text-sidebar-foreground sm:min-h-0"
                 >
                   {tr(c.name)}
                 </SiteLink>
@@ -69,24 +69,24 @@ export function SiteFooter() {
           <p className="text-xs uppercase tracking-[0.2em] text-sidebar-foreground/50">
             {t("footer.browse")}
           </p>
-          <ul className="mt-4 space-y-2 text-sm">
+          <ul className="mt-2 text-sm sm:mt-4 sm:space-y-2">
             <li>
-              <SiteLink page="produtos" className="text-sidebar-foreground/80 hover:text-sidebar-foreground">
+              <SiteLink page="produtos" className="inline-flex min-h-11 items-center text-sidebar-foreground/80 hover:text-sidebar-foreground sm:min-h-0">
                 {t("footer.allProducts")}
               </SiteLink>
             </li>
             <li>
-              <SiteLink page="sobre" className="text-sidebar-foreground/80 hover:text-sidebar-foreground">
+              <SiteLink page="sobre" className="inline-flex min-h-11 items-center text-sidebar-foreground/80 hover:text-sidebar-foreground sm:min-h-0">
                 {t("nav.about")}
               </SiteLink>
             </li>
             <li>
-              <SiteLink page="contato" className="text-sidebar-foreground/80 hover:text-sidebar-foreground">
+              <SiteLink page="contato" className="inline-flex min-h-11 items-center text-sidebar-foreground/80 hover:text-sidebar-foreground sm:min-h-0">
                 {t("contact.title")}
               </SiteLink>
             </li>
             <li>
-              <Link to="/auth" className="text-sidebar-foreground/60 hover:text-sidebar-foreground">
+              <Link to="/auth" className="inline-flex min-h-11 items-center text-sidebar-foreground/60 hover:text-sidebar-foreground sm:min-h-0">
                 {t("nav.admin")}
               </Link>
             </li>

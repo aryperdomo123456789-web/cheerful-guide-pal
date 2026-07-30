@@ -105,14 +105,19 @@ export function KeeHeader() {
             </button>
           </form>
 
-          <div className="ml-auto flex items-center gap-3 sm:gap-5 md:ml-0">
-            <Link to="/auth" className="hidden items-center gap-2 text-sm sm:flex">
+          <div className="ml-auto flex items-center gap-1 sm:gap-3 md:ml-0">
+            <Link to="/auth" className="hidden min-h-11 items-center gap-2 px-2 text-sm sm:flex">
               <User className="size-5" />
               {t("kee.account")}
             </Link>
-            <SiteLink page="produtos" className="flex items-center gap-1 text-sm" aria-label={t("kee.catalog")}>
+            <SiteLink
+              page="produtos"
+              className="flex size-11 items-center justify-center"
+              aria-label={t("kee.catalog")}
+            >
               <ShoppingCart className="size-5" />
             </SiteLink>
+
 
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
@@ -190,12 +195,17 @@ export function KeeHeader() {
             value={term}
             onChange={(e) => setTerm(e.target.value)}
             placeholder={t("kee.searchPlaceholder")}
-            className="h-11 w-full rounded-md bg-background px-4 pr-11 text-sm text-foreground outline-hidden"
+            className="h-12 w-full rounded-md bg-background px-4 pr-12 text-base text-foreground outline-hidden"
           />
-          <button type="submit" aria-label={t("kee.search")} className="absolute right-6 top-1/2 -translate-y-1/2 text-muted-foreground">
+          <button
+            type="submit"
+            aria-label={t("kee.search")}
+            className="absolute right-4 top-1/2 flex size-11 -translate-y-1/2 items-center justify-center text-muted-foreground sm:right-6"
+          >
             <Search className="size-5" />
           </button>
         </form>
+
       </div>
 
       {/* menu de navegação */}
@@ -211,7 +221,7 @@ export function KeeHeader() {
               <ChevronDown className="size-3" />
             </SiteLink>
             {openMenu === "moveis" ? (
-              <div className="absolute left-0 top-full z-50 grid w-[720px] grid-cols-3 gap-1 rounded-b-md border border-border bg-background p-4 text-foreground shadow-xl">
+              <div className="absolute left-0 top-full z-50 grid w-[min(720px,calc(100vw-3rem))] grid-cols-2 gap-1 rounded-b-md border border-border bg-background p-4 text-foreground shadow-xl xl:grid-cols-3">
                 {menuCats.map((c) => (
                   <SiteLink
                     key={c.id}

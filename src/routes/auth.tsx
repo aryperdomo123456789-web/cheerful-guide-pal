@@ -71,7 +71,10 @@ function AuthPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-sand px-4 py-10">
       <div className="w-full max-w-md rounded-lg border border-border bg-card p-5 sm:p-8">
-        <Link to="/" className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
+        <Link
+          to="/"
+          className="inline-flex min-h-11 items-center text-xs uppercase tracking-[0.25em] text-muted-foreground sm:min-h-0"
+        >
           ← voltar ao site
         </Link>
         <h1 className="mt-4 font-display text-2xl sm:text-3xl">Área administrativa</h1>

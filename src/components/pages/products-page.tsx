@@ -204,7 +204,7 @@ function FilterButton({ active, onClick, label }: { active: boolean; onClick: ()
     <button
       type="button"
       onClick={onClick}
-      className={`w-full rounded-md px-3 py-2.5 text-left text-sm transition-colors ${
+      className={`flex min-h-11 w-full items-center rounded-md px-3 py-2.5 text-left text-sm transition-colors sm:min-h-9 ${
         active ? "bg-wood text-wood-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground"
       }`}
     >
@@ -218,7 +218,7 @@ function FilterChip({ active, onClick, label }: { active: boolean; onClick: () =
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-full border px-3 py-2 text-xs font-medium transition-colors ${
+      className={`min-h-11 rounded-full border px-4 py-2 text-xs font-medium transition-colors sm:min-h-0 sm:px-3 ${
         active
           ? "border-ember bg-ember text-ember-foreground"
           : "border-border text-muted-foreground hover:border-wood hover:text-foreground"

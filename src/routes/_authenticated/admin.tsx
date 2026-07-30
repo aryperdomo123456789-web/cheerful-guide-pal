@@ -125,7 +125,7 @@ function AdminPage() {
 
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
           <Tabs defaultValue="produtos">
-            <TabsList className="flex h-auto w-full flex-nowrap justify-start gap-1 overflow-x-auto sm:flex-wrap">
+            <TabsList className="-mx-4 flex h-auto w-[calc(100%+2rem)] flex-nowrap justify-start gap-1 overflow-x-auto rounded-none px-4 sm:mx-0 sm:w-full sm:flex-wrap sm:rounded-lg sm:px-1">
               <TabsTrigger className="shrink-0" value="produtos">Produtos</TabsTrigger>
               <TabsTrigger className="shrink-0" value="categorias">Categorias</TabsTrigger>
               <TabsTrigger className="shrink-0" value="ambientes">Ambientes</TabsTrigger>
