@@ -75,7 +75,7 @@ export function HomePageView() {
       </section>
 
       <section className="border-b border-border bg-sand">
-        <div className="site-container grid grid-cols-2 gap-6 py-8 sm:grid-cols-4">
+        <div className="site-container grid grid-cols-2 gap-4 py-8 sm:grid-cols-4 sm:gap-6">
           {[
             { v: `${settings?.years_experience ?? 0}+`, l: t("home.stats.years") },
             { v: `${formatNumber(settings?.projects_done ?? 0)}+`, l: t("home.stats.pieces") },
@@ -90,19 +90,19 @@ export function HomePageView() {
         </div>
       </section>
 
-      <section className="site-container py-16">
+      <section className="site-container py-12 sm:py-16">
         <div className="flex items-end justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
               {t("home.catalogEyebrow")}
             </p>
-            <h2 className="mt-2 font-display text-3xl">{t("home.catalogTitle")}</h2>
+            <h2 className="mt-2 font-display text-2xl sm:text-3xl">{t("home.catalogTitle")}</h2>
           </div>
           <SiteLink page="produtos" className="hidden text-sm font-medium text-ember hover:underline sm:block">
             {t("home.viewAll")}
           </SiteLink>
         </div>
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="mt-8 grid grid-cols-1 gap-3 min-[420px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
           {categories.map((c) => (
             <SiteLink
               key={c.id}
@@ -118,9 +118,9 @@ export function HomePageView() {
         </div>
       </section>
 
-      <section className="bg-sand py-14">
+      <section className="bg-sand py-10 sm:py-14">
         <div className="site-container">
-          <h2 className="font-display text-3xl">{t("home.roomsTitle")}</h2>
+          <h2 className="font-display text-2xl sm:text-3xl">{t("home.roomsTitle")}</h2>
           <div className="mt-6 flex flex-wrap gap-2">
             {ambientes.map((a) => (
               <SiteLink
@@ -136,12 +136,12 @@ export function HomePageView() {
         </div>
       </section>
 
-      <section className="site-container py-16">
+      <section className="site-container py-12 sm:py-16">
         <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
           {t("home.workshopEyebrow")}
         </p>
-        <h2 className="mt-2 font-display text-3xl">{t("home.featuredTitle")}</h2>
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <h2 className="mt-2 font-display text-2xl sm:text-3xl">{t("home.featuredTitle")}</h2>
+        <div className="mt-8 grid gap-5 min-[420px]:grid-cols-2 sm:gap-6 lg:grid-cols-3">
           {destaques.map((p) => (
             <ProductCard key={p.id} product={p} showPrice={showPrices} />
           ))}
@@ -153,8 +153,8 @@ export function HomePageView() {
         </div>
       </section>
 
-      <section className="border-y border-border bg-card py-16">
-        <div className="site-container grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="border-y border-border bg-card py-12 sm:py-16">
+        <div className="site-container grid gap-6 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4">
           {diferenciais.map((d) => (
             <div key={d.title}>
               <d.icon className="size-6 text-wood" />
@@ -165,8 +165,8 @@ export function HomePageView() {
         </div>
       </section>
 
-      <section className="site-container py-16">
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+      <section className="site-container py-12 sm:py-16">
+        <div className="grid gap-8 lg:grid-cols-2 lg:gap-10 lg:items-center">
           <img
             src="/produtos/oficina.jpg"
             alt={t("home.howTitle")}
@@ -175,7 +175,7 @@ export function HomePageView() {
           />
           <div>
             <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">{t("home.howEyebrow")}</p>
-            <h2 className="mt-2 font-display text-3xl">{t("home.howTitle")}</h2>
+            <h2 className="mt-2 font-display text-2xl sm:text-3xl">{t("home.howTitle")}</h2>
             <div className="mt-8 space-y-6">
               {etapas.map((e) => (
                 <div key={e.n} className="flex gap-4">
@@ -191,10 +191,10 @@ export function HomePageView() {
         </div>
       </section>
 
-      <section className="bg-sand py-16">
+      <section className="bg-sand py-12 sm:py-16">
         <div className="site-container">
-          <h2 className="font-display text-3xl">{t("home.testimonialsTitle")}</h2>
-          <div className="mt-8 grid gap-6 sm:grid-cols-3">
+          <h2 className="font-display text-2xl sm:text-3xl">{t("home.testimonialsTitle")}</h2>
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
             {testimonials.map((tm) => (
               <figure key={tm.id} className="rounded-lg border border-border bg-card p-6">
                 <div className="flex gap-0.5 text-ember">
@@ -215,11 +215,11 @@ export function HomePageView() {
         </div>
       </section>
 
-      <section className="site-container py-20 text-center">
+      <section className="site-container py-14 text-center sm:py-20">
         <ShieldCheck className="mx-auto size-8 text-wood" />
         <h2 className="mt-4 font-display text-3xl">{t("home.ctaTitle")}</h2>
         <p className="mx-auto mt-3 max-w-xl text-muted-foreground">{t("home.ctaText")}</p>
-        <div className="mt-7 flex flex-wrap justify-center gap-3">
+        <div className="mt-7 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:flex-wrap">
           <Button asChild size="lg" className="bg-ember text-ember-foreground hover:bg-ember/90">
             <a href={whatsappLink(settings?.whatsapp ?? "", t("wa.short"))} target="_blank" rel="noreferrer">
               {t("home.ctaWhatsapp")}
