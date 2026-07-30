@@ -139,7 +139,9 @@ export function ProductsPageView({
               ))}
             </div>
           </div>
-        </aside>
+          </aside>
+        </div>
+
 
         <section>
           <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
