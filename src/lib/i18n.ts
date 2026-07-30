@@ -18,10 +18,24 @@ export const DEFAULT_LANGUAGE: LanguageCode = "pt-BR";
 
 export const CURRENCIES = [
   { code: "BRL", label: "Real (R$)" },
+  { code: "PYG", label: "Guarani (₲)" },
   { code: "USD", label: "Dólar (US$)" },
   { code: "EUR", label: "Euro (€)" },
   { code: "GBP", label: "Libra (£)" },
+  { code: "ARS", label: "Peso argentino (AR$)" },
+  { code: "UYU", label: "Peso uruguaio ($U)" },
+  { code: "CLP", label: "Peso chileno (CLP$)" },
+  { code: "PEN", label: "Sol peruano (S/)" },
+  { code: "COP", label: "Peso colombiano (COL$)" },
+  { code: "MXN", label: "Peso mexicano (MX$)" },
+  { code: "BOB", label: "Boliviano (Bs)" },
+  { code: "CAD", label: "Dólar canadense (C$)" },
+  { code: "CHF", label: "Franco suíço (CHF)" },
+  { code: "JPY", label: "Iene (¥)" },
+  { code: "AOA", label: "Kwanza (Kz)" },
+  { code: "MZN", label: "Metical (MT)" },
 ] as const;
+
 
 const ptBR = {
   // header / nav
