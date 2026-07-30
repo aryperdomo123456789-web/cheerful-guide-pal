@@ -916,7 +916,49 @@ function SettingsAdmin() {
             </SelectContent>
           </Select>
         </Field>
+        <Field
+          label="Ícone do site (favicon)"
+          hint="Imagem quadrada (PNG/ICO/SVG) que aparece na aba do navegador."
+        >
+          <div className="flex items-center gap-3">
+            {form.favicon_url ? (
+              <img
+                src={form.favicon_url}
+                alt="Favicon atual"
+                className="size-8 rounded border border-border bg-background object-contain"
+              />
+            ) : null}
+            <Input
+              type="file"
+              accept="image/png,image/x-icon,image/svg+xml,image/jpeg,image/webp"
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                try {
+                  const url = await uploadProductImage(file);
+                  set("favicon_url", url);
+                  toast.success("Ícone enviado. Clique em Salvar.");
+                } catch (err) {
+                  toast.error(err instanceof Error ? err.message : "Falha no upload");
+                }
+              }}
+            />
+            {form.favicon_url ? (
+              <Button variant="ghost" size="sm" onClick={() => set("favicon_url", "")}>
+                Remover
+              </Button>
+            ) : null}
+          </div>
+        </Field>
+        <Field label="Ícone por URL (opcional)" hint="Ex.: /favicon.png ou link completo.">
+          <Input
+            value={form.favicon_url}
+            onChange={(e) => set("favicon_url", e.target.value)}
+            placeholder="/meu-icone.png"
+          />
+        </Field>
       </div>
+
 
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Nome da marca">
