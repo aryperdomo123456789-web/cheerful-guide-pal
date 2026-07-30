@@ -182,7 +182,38 @@ const ptBR = {
   // erros
   "site.notFound": "Site não encontrado",
   "site.notFoundText": "Este endereço não corresponde a nenhum site publicado.",
+
+  // loja (tema K&E)
+  "kee.searchPlaceholder": "Olá, o que você procura?",
+  "kee.search": "Buscar",
+  "kee.account": "Minha conta",
+  "kee.catalog": "Catálogo",
+  "kee.allFurniture": "Todos os móveis",
+  "kee.categories": "Categorias",
+  "kee.rooms": "Ambientes",
+  "kee.furniture": "Móveis",
+  "kee.cane": "Móveis Palhinha",
+  "kee.new": "Lançamento",
+  "kee.sets": "Conjuntos",
+  "kee.promos": "Promoções",
+  "kee.ready": "Pronta Entrega",
+  "kee.rustic": "Móveis Rústicos",
+
+  // preço
+  "card.onRequestPrice": "Preço sob consulta",
+  "card.installments": "em até {n}x de {value} sem juros",
+
+  // pop-up de cupom
+  "popup.doneTitle": "Cadastro concluído!",
+  "popup.doneText": "Use o cupom abaixo na sua primeira compra.",
+  "popup.enter": "Acessar a loja",
+  "popup.namePlaceholder": "Digite seu nome",
+  "popup.emailPlaceholder": "Digite seu e-mail",
+  "popup.cta": "Gerar cupom",
+  "popup.close": "Fechar",
+  "popup.error": "Não foi possível cadastrar. Tente novamente.",
 } as const;
+
 
 export type TranslationKey = keyof typeof ptBR;
 type Dict = Record<TranslationKey, string>;
