@@ -34,7 +34,12 @@ export type SiteSettings = {
   language: string;
   currency: string;
   favicon_url: string;
-
+  popup_enabled: boolean;
+  popup_title: string;
+  popup_subtitle: string;
+  popup_cta: string;
+  popup_image_url: string;
+  popup_coupon: string;
 };
 
 export type Category = {
