@@ -228,7 +228,7 @@ const ptPT: Partial<Dict> = {
   "contact.formText": "Quantos mais detalhes (medidas, foto do espaço, prazo), mais preciso fica o orçamento.",
 };
 
-const enUS: Dict = {
+const enUS: Partial<Dict> = {
   "nav.home": "Home",
   "nav.products": "Products",
   "nav.about": "The Workshop",
@@ -364,7 +364,7 @@ const enUS: Dict = {
   "site.notFoundText": "This address does not match any published site.",
 };
 
-const esES: Dict = {
+const esES: Partial<Dict> = {
   "nav.home": "Inicio",
   "nav.products": "Productos",
   "nav.about": "La Carpintería",
@@ -500,7 +500,7 @@ const esES: Dict = {
   "site.notFoundText": "Esta dirección no corresponde a ningún sitio publicado.",
 };
 
-const frFR: Dict = {
+const frFR: Partial<Dict> = {
   "nav.home": "Accueil",
   "nav.products": "Produits",
   "nav.about": "L'Atelier",
@@ -636,7 +636,7 @@ const frFR: Dict = {
   "site.notFoundText": "Cette adresse ne correspond à aucun site publié.",
 };
 
-const itIT: Dict = {
+const itIT: Partial<Dict> = {
   "nav.home": "Home",
   "nav.products": "Prodotti",
   "nav.about": "La Falegnameria",
@@ -772,7 +772,7 @@ const itIT: Dict = {
   "site.notFoundText": "Questo indirizzo non corrisponde a nessun sito pubblicato.",
 };
 
-const deDE: Dict = {
+const deDE: Partial<Dict> = {
   "nav.home": "Start",
   "nav.products": "Produkte",
   "nav.about": "Die Tischlerei",
