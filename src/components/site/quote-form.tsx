@@ -116,7 +116,7 @@ export function QuoteForm({ productName = "" }: { productName?: string }) {
       <Button
         type="submit"
         disabled={mutation.isPending}
-        className="bg-ember text-ember-foreground hover:bg-ember/90"
+        className="w-full bg-ember text-ember-foreground hover:bg-ember/90 sm:w-auto sm:justify-self-start"
       >
         {mutation.isPending ? t("form.sending") : t("form.submit")}
       </Button>

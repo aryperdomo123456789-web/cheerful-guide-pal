@@ -9,10 +9,10 @@ export function SiteFooter() {
   const { t, formatNumber } = useI18n();
 
   return (
-    <footer className="mt-24 bg-sidebar text-sidebar-foreground">
-      <div className="site-container grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
+    <footer className="mt-16 bg-sidebar text-sidebar-foreground sm:mt-24">
+      <div className="site-container grid gap-8 py-10 sm:grid-cols-2 sm:gap-10 sm:py-14 lg:grid-cols-4">
         <div>
-          <p className="font-display text-2xl">{settings?.brand_name}</p>
+          <p className="font-display text-xl sm:text-2xl">{settings?.brand_name}</p>
           <p className="mt-3 text-sm text-sidebar-foreground/70">{settings?.tagline}</p>
           <p className="mt-4 text-sm text-sidebar-foreground/70">
             {t("footer.yearsPieces", {
@@ -96,19 +96,19 @@ export function SiteFooter() {
             {t("footer.contactUs")}
           </p>
           <ul className="mt-4 space-y-3 text-sm text-sidebar-foreground/80">
-            <li className="flex gap-2">
+            <li className="flex min-w-0 gap-2 break-words">
               <Phone className="mt-0.5 size-4 shrink-0" />
               {settings?.phone}
             </li>
-            <li className="flex gap-2">
+            <li className="flex min-w-0 gap-2 break-words">
               <Mail className="mt-0.5 size-4 shrink-0" />
               {settings?.email}
             </li>
-            <li className="flex gap-2">
+            <li className="flex min-w-0 gap-2 break-words">
               <MapPin className="mt-0.5 size-4 shrink-0" />
               {settings?.address}
             </li>
-            <li className="flex gap-2">
+            <li className="flex min-w-0 gap-2 break-words">
               <Clock className="mt-0.5 size-4 shrink-0" />
               {settings?.opening_hours}
             </li>
@@ -116,7 +116,7 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="border-t border-sidebar-border py-6 text-center text-xs text-sidebar-foreground/50">
+      <div className="border-t border-sidebar-border px-4 pb-24 pt-6 text-center text-xs sm:pb-6 text-sidebar-foreground/50">
         © {new Date().getFullYear()} {settings?.brand_name}. {t("footer.rights")}
       </div>
     </footer>
