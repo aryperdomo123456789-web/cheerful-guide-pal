@@ -3,17 +3,19 @@ import { Clock, Instagram, Facebook, Mail, MapPin, Phone } from "lucide-react";
 
 import { useI18n } from "@/lib/i18n";
 import { SiteLink, useSite } from "@/lib/site-context";
+import { useAutoTranslate } from "@/lib/auto-translate";
 
 export function SiteFooter() {
   const { settings, categories } = useSite();
   const { t, formatNumber } = useI18n();
+  const tr = useAutoTranslate();
 
   return (
     <footer className="mt-16 bg-sidebar text-sidebar-foreground sm:mt-24">
       <div className="site-container grid gap-8 py-10 sm:grid-cols-2 sm:gap-10 sm:py-14 lg:grid-cols-4">
         <div>
           <p className="font-display text-xl sm:text-2xl">{settings?.brand_name}</p>
-          <p className="mt-3 text-sm text-sidebar-foreground/70">{settings?.tagline}</p>
+          <p className="mt-3 text-sm text-sidebar-foreground/70">{tr(settings?.tagline)}</p>
           <p className="mt-4 text-sm text-sidebar-foreground/70">
             {t("footer.yearsPieces", {
               years: settings?.years_experience ?? 0,
@@ -56,7 +58,7 @@ export function SiteFooter() {
                   search={{ categoria: c.slug }}
                   className="text-sidebar-foreground/80 hover:text-sidebar-foreground"
                 >
-                  {c.name}
+                  {tr(c.name)}
                 </SiteLink>
               </li>
             ))}

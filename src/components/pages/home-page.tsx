@@ -5,11 +5,13 @@ import { SiteLayout } from "@/components/site/site-layout";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { SiteLink, useSite } from "@/lib/site-context";
+import { useAutoTranslate } from "@/lib/auto-translate";
 import { whatsappLink } from "@/lib/site-data";
 
 export function HomePageView() {
   const { settings, products, categories, ambientes, testimonials } = useSite();
   const { t, formatNumber } = useI18n();
+  const tr = useAutoTranslate();
 
   const destaques = products.filter((p) => p.is_featured).slice(0, 6);
   const showPrices = settings?.show_prices ?? true;
@@ -33,19 +35,19 @@ export function HomePageView() {
       <section className="relative isolate">
         <img
           src="/produtos/hero-sala-jantar.jpg"
-          alt={settings?.hero_title ?? ""}
+          alt={tr(settings?.hero_title) || ""}
           className="absolute inset-0 -z-10 size-full object-cover"
         />
         <div className="absolute inset-0 -z-10 bg-linear-to-b from-black/80 via-black/65 to-black/40 sm:bg-linear-to-r sm:from-black/80 sm:via-black/60 sm:to-black/25" />
         <div className="site-container py-16 sm:py-28 lg:py-36">
           <p className="text-[0.65rem] uppercase tracking-[0.28em] text-white/70 sm:text-xs sm:tracking-[0.3em]">
-            {settings?.tagline}
+            {tr(settings?.tagline)}
           </p>
           <h1 className="mt-3 max-w-2xl font-display text-3xl leading-tight text-white sm:mt-4 sm:text-5xl lg:text-6xl">
-            {settings?.hero_title}
+            {tr(settings?.hero_title)}
           </h1>
           <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/80 sm:mt-5 sm:text-lg">
-            {settings?.hero_subtitle}
+            {tr(settings?.hero_subtitle)}
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
             <Button
@@ -59,7 +61,7 @@ export function HomePageView() {
                 target="_blank"
                 rel="noreferrer"
               >
-                {settings?.hero_cta || t("home.heroCta")}
+                {tr(settings?.hero_cta) || t("home.heroCta")}
               </a>
             </Button>
             <Button
@@ -111,8 +113,8 @@ export function HomePageView() {
               className="rounded-lg border border-border bg-card p-5 transition-colors hover:border-wood hover:bg-sand"
             >
               <Axe className="size-5 text-wood" />
-              <p className="mt-3 font-display text-lg leading-tight">{c.name}</p>
-              <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{c.description}</p>
+              <p className="mt-3 font-display text-lg leading-tight">{tr(c.name)}</p>
+              <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{tr(c.description)}</p>
             </SiteLink>
           ))}
         </div>
@@ -129,7 +131,7 @@ export function HomePageView() {
                 search={{ ambiente: a.slug }}
                 className="rounded-full border border-wood/40 bg-background px-4 py-2 text-sm font-medium text-wood transition-colors hover:bg-wood hover:text-wood-foreground"
               >
-                {a.name}
+                {tr(a.name)}
               </SiteLink>
             ))}
           </div>
@@ -203,11 +205,11 @@ export function HomePageView() {
                   ))}
                 </div>
                 <blockquote className="mt-4 text-sm leading-relaxed text-foreground/90">
-                  "{tm.content}"
+                  "{tr(tm.content)}"
                 </blockquote>
                 <figcaption className="mt-4 text-sm font-medium">
                   {tm.author}
-                  <span className="block text-xs font-normal text-muted-foreground">{tm.city}</span>
+                  <span className="block text-xs font-normal text-muted-foreground">{tr(tm.city)}</span>
                 </figcaption>
               </figure>
             ))}

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { useI18n } from "@/lib/i18n";
 import { SiteLink, useSite } from "@/lib/site-context";
+import { useAutoTranslate } from "@/lib/auto-translate";
 import { type Product } from "@/lib/site-data";
 
 
@@ -13,6 +14,7 @@ export function ProductCard({
   showPrice?: boolean;
 }) {
   const { t, formatPrice } = useI18n();
+  const tr = useAutoTranslate();
   const { theme } = useSite();
   const isStore = theme === "kee";
   const cover = product.images?.[0] ?? "/produtos/oficina.jpg";
@@ -56,7 +58,7 @@ export function ProductCard({
       >
         <img
           src={cover}
-          alt={product.name}
+          alt={tr(product.name)}
           loading="lazy"
           className={`size-full transition-all duration-500 group-hover:scale-105 ${
             isStore ? "object-contain p-2" : "object-cover"
@@ -65,7 +67,7 @@ export function ProductCard({
         {alt ? (
           <img
             src={alt}
-            alt={product.name}
+            alt={tr(product.name)}
             loading="lazy"
             aria-hidden
             className={`absolute inset-0 size-full transition-all duration-500 group-hover:scale-105 ${
@@ -98,12 +100,12 @@ export function ProductCard({
 
 
       <div className={`flex min-w-0 flex-1 flex-col gap-2 p-3 sm:p-4 ${isStore ? "text-center" : ""}`}>
-        <h3 className="font-display text-base leading-snug sm:text-lg">{product.name}</h3>
+        <h3 className="font-display text-base leading-snug sm:text-lg">{tr(product.name)}</h3>
         {isStore ? null : (
           <>
-            <p className="line-clamp-2 text-xs text-muted-foreground sm:text-sm">{product.short_description}</p>
+            <p className="line-clamp-2 text-xs text-muted-foreground sm:text-sm">{tr(product.short_description)}</p>
             <p className="line-clamp-1 text-[0.7rem] uppercase tracking-wide text-muted-foreground sm:text-xs">
-              {product.wood_type}
+              {tr(product.wood_type)}
               {product.dimensions ? ` · ${product.dimensions}` : ""}
             </p>
           </>
@@ -112,7 +114,7 @@ export function ProductCard({
         {showPrice ? (
           <div className="mt-auto pt-3">
             {finalPrice == null ? (
-              <span className="text-sm text-muted-foreground">Preço sob consulta</span>
+              <span className="text-sm text-muted-foreground">{t("card.onRequestPrice")}</span>
             ) : (
               <>
                 {hasSale ? (
@@ -129,7 +131,7 @@ export function ProductCard({
                 )}
                 {isStore ? (
                   <p className="mt-1 text-xs text-muted-foreground">
-                    em até <strong>10x</strong> de <strong>{formatPrice(finalPrice / 10)}</strong> sem juros
+                    {t("card.installments", { n: 10, value: formatPrice(finalPrice / 10) })}
                   </p>
                 ) : null}
               </>

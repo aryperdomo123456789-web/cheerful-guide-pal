@@ -5,11 +5,13 @@ import { SiteLayout } from "@/components/site/site-layout";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { useSite } from "@/lib/site-context";
+import { useAutoTranslate } from "@/lib/auto-translate";
 import { whatsappLink } from "@/lib/site-data";
 
 export function ContactPageView() {
   const { settings } = useSite();
   const { t } = useI18n();
+  const tr = useAutoTranslate();
 
   return (
     <SiteLayout>
@@ -32,7 +34,7 @@ export function ContactPageView() {
         <aside className="space-y-6 rounded-lg border border-border bg-card p-5 sm:p-6">
           <div>
             <p className="font-display text-xl">{settings?.brand_name}</p>
-            <p className="text-sm text-muted-foreground">{settings?.tagline}</p>
+            <p className="text-sm text-muted-foreground">{tr(settings?.tagline)}</p>
           </div>
           <ul className="space-y-4 text-sm">
             <li className="flex min-w-0 gap-3 break-words">
