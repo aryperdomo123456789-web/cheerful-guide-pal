@@ -21,8 +21,8 @@ export function ProductDetailView({ slug }: { slug: string }) {
   if (!product) {
     return (
       <SiteLayout>
-        <div className="mx-auto max-w-3xl px-4 py-24 text-center">
-          <h1 className="font-display text-3xl">
+        <div className="mx-auto max-w-3xl px-4 py-16 text-center sm:py-24">
+          <h1 className="font-display text-2xl sm:text-3xl">
             {isLoading ? t("products.loading") : t("detail.notFound")}
           </h1>
           {!isLoading ? (
@@ -47,7 +47,7 @@ export function ProductDetailView({ slug }: { slug: string }) {
 
   return (
     <SiteLayout>
-      <div className="site-container py-8">
+      <div className="site-container py-6 sm:py-8">
         <SiteLink
           page="produtos"
           className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
@@ -55,19 +55,19 @@ export function ProductDetailView({ slug }: { slug: string }) {
           <ArrowLeft className="size-4" /> {t("detail.back")}
         </SiteLink>
 
-        <div className="mt-6 grid gap-10 lg:grid-cols-2">
+        <div className="mt-6 grid gap-8 lg:grid-cols-2 lg:gap-10">
           <div>
             <div className="overflow-hidden rounded-lg border border-border bg-muted">
               <img src={images[active]} alt={product.name} className="aspect-4/3 w-full object-cover" />
             </div>
             {images.length > 1 ? (
-              <div className="mt-3 flex gap-3">
+              <div className="mt-3 flex gap-3 overflow-x-auto pb-1">
                 {images.map((img, i) => (
                   <button
                     key={`${img}-${i}`}
                     type="button"
                     onClick={() => setActive(i)}
-                    className={`size-20 overflow-hidden rounded-md border ${
+                    className={`size-16 shrink-0 overflow-hidden rounded-md border sm:size-20 ${
                       i === active ? "border-ember" : "border-border"
                     }`}
                   >
@@ -87,14 +87,14 @@ export function ProductDetailView({ slug }: { slug: string }) {
               ) : null}
             </div>
 
-            <h1 className="mt-4 font-display text-4xl leading-tight">{product.name}</h1>
+            <h1 className="mt-4 font-display text-2xl leading-tight sm:text-3xl lg:text-4xl">{product.name}</h1>
             <p className="mt-3 text-muted-foreground">{product.short_description}</p>
 
             {showPrice ? (
-              <div className="mt-6 flex items-end gap-3">
+              <div className="mt-6 flex flex-wrap items-end gap-3">
                 {product.sale_price != null && product.price != null ? (
                   <>
-                    <span className="font-display text-3xl text-ember">
+                    <span className="font-display text-2xl text-ember sm:text-3xl">
                       {formatPrice(product.sale_price)}
                     </span>
                     <span className="text-lg text-muted-foreground line-through">
@@ -102,7 +102,7 @@ export function ProductDetailView({ slug }: { slug: string }) {
                     </span>
                   </>
                 ) : (
-                  <span className="font-display text-3xl">{formatPrice(product.price)}</span>
+                  <span className="font-display text-2xl sm:text-3xl">{formatPrice(product.price)}</span>
                 )}
               </div>
             ) : null}
@@ -142,8 +142,8 @@ export function ProductDetailView({ slug }: { slug: string }) {
           </div>
         </div>
 
-        <section className="mt-16 rounded-lg border border-border bg-card p-6 sm:p-8">
-          <h2 className="font-display text-2xl">{t("detail.quoteTitle")}</h2>
+        <section className="mt-12 rounded-lg border border-border bg-card p-4 sm:mt-16 sm:p-8">
+          <h2 className="font-display text-xl sm:text-2xl">{t("detail.quoteTitle")}</h2>
           <p className="mt-2 text-sm text-muted-foreground">{t("detail.quoteText")}</p>
           <div className="mt-6">
             <QuoteForm productName={product.name} />
@@ -151,9 +151,9 @@ export function ProductDetailView({ slug }: { slug: string }) {
         </section>
 
         {related.length ? (
-          <section className="mt-16">
-            <h2 className="font-display text-2xl">{t("detail.related")}</h2>
-            <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <section className="mt-12 sm:mt-16">
+            <h2 className="font-display text-xl sm:text-2xl">{t("detail.related")}</h2>
+            <div className="mt-6 grid gap-5 min-[420px]:grid-cols-2 sm:gap-6 lg:grid-cols-3">
               {related.map((p) => (
                 <ProductCard key={p.id} product={p} showPrice={showPrice} />
               ))}

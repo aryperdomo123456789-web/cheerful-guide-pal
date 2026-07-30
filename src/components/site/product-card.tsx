@@ -37,10 +37,10 @@ export function ProductCard({
         ) : null}
       </div>
 
-      <div className="flex flex-1 flex-col gap-2 p-4">
-        <h3 className="font-display text-lg leading-snug">{product.name}</h3>
-        <p className="line-clamp-2 text-sm text-muted-foreground">{product.short_description}</p>
-        <p className="text-xs uppercase tracking-wide text-muted-foreground">
+      <div className="flex min-w-0 flex-1 flex-col gap-2 p-3 sm:p-4">
+        <h3 className="font-display text-base leading-snug sm:text-lg">{product.name}</h3>
+        <p className="line-clamp-2 text-xs text-muted-foreground sm:text-sm">{product.short_description}</p>
+        <p className="line-clamp-1 text-[0.7rem] uppercase tracking-wide text-muted-foreground sm:text-xs">
           {product.wood_type}
           {product.dimensions ? ` · ${product.dimensions}` : ""}
         </p>
@@ -52,10 +52,10 @@ export function ProductCard({
                 <span className="text-sm text-muted-foreground line-through">
                   {formatPrice(product.price)}
                 </span>
-                <span className="font-display text-xl text-ember">{formatPrice(product.sale_price)}</span>
+                <span className="font-display text-lg text-ember sm:text-xl">{formatPrice(product.sale_price)}</span>
               </div>
             ) : (
-              <span className="font-display text-xl">{formatPrice(product.price)}</span>
+              <span className="font-display text-lg sm:text-xl">{formatPrice(product.price)}</span>
             )}
           </div>
         ) : (
