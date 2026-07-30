@@ -159,10 +159,11 @@ export function PromoPopup() {
               <button
                 type="button"
                 onClick={close}
-                className="text-sm underline underline-offset-4 text-muted-foreground hover:text-foreground"
+                className="min-h-11 text-sm underline underline-offset-4 text-muted-foreground hover:text-foreground"
               >
                 {t("popup.enter")}
               </button>
+
             </form>
           )}
         </div>
