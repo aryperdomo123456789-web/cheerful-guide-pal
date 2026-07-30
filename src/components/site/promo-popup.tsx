@@ -85,7 +85,7 @@ export function PromoPopup() {
       role="presentation"
     >
       <div
-        className="relative grid max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-lg bg-card shadow-xl md:grid-cols-2"
+        className={`relative grid max-h-[90vh] w-full overflow-y-auto rounded-lg bg-card shadow-xl ${settings?.popup_image_url ? "max-w-3xl md:grid-cols-2" : "max-w-md"}`}
         onClick={(e) => e.stopPropagation()}
       >
         <button
