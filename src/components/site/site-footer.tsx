@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import { Clock, Instagram, Facebook, Mail, MapPin, Phone } from "lucide-react";
 
 import { useI18n } from "@/lib/i18n";
