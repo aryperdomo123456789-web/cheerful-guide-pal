@@ -980,7 +980,7 @@ function SettingsAdmin() {
 
       <div className="grid gap-4 rounded-md border border-border p-4">
         <p className="font-display text-lg">Pop-up de captação (cupom)</p>
-        <Toggle
+        <ToggleField
           label="Exibir pop-up no primeiro acesso"
           checked={form.popup_enabled}
           onChange={(v) => set("popup_enabled", v)}
