@@ -240,6 +240,7 @@ export type Database = {
           currency: string
           email: string
           facebook: string
+          favicon_url: string
           hero_cta: string
           hero_subtitle: string
           hero_title: string
@@ -264,6 +265,7 @@ export type Database = {
           currency?: string
           email?: string
           facebook?: string
+          favicon_url?: string
           hero_cta?: string
           hero_subtitle?: string
           hero_title?: string
@@ -288,6 +290,7 @@ export type Database = {
           currency?: string
           email?: string
           facebook?: string
+          favicon_url?: string
           hero_cta?: string
           hero_subtitle?: string
           hero_title?: string

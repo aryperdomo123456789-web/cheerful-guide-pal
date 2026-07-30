@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 
 import { useSite } from "@/lib/site-context";
 import { SiteFooter } from "./site-footer";
@@ -6,7 +6,21 @@ import { SiteHeader } from "./site-header";
 import { WhatsappFab } from "./whatsapp-fab";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
-  const { theme, notFound } = useSite();
+  const { theme, notFound, settings } = useSite();
+
+  const faviconUrl = settings?.favicon_url ?? "";
+
+  useEffect(() => {
+    if (typeof document === "undefined" || !faviconUrl) return;
+    let link = document.querySelector<HTMLLinkElement>("link[rel='icon']");
+    if (!link) {
+      link = document.createElement("link");
+      link.rel = "icon";
+      document.head.appendChild(link);
+    }
+    link.href = faviconUrl;
+  }, [faviconUrl]);
+
 
   if (notFound) {
     return (
