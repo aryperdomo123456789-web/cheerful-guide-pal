@@ -37,12 +37,23 @@ export function ProductsPageView({
     const term = (search.q ?? "").trim().toLowerCase();
 
     let list = products.filter((p) => {
-      if (categoryId && p.category_id !== categoryId) return false;
-      if (ambienteId && p.ambiente_id !== ambienteId) return false;
+      if (
+        search.categoria &&
+        p.category_id !== categoryId &&
+        !(p.tags ?? []).includes(search.categoria)
+      )
+        return false;
+      if (
+        search.ambiente &&
+        p.ambiente_id !== ambienteId &&
+        !(p.tags ?? []).includes(search.ambiente)
+      )
+        return false;
       if (term && !`${p.name} ${p.short_description} ${p.wood_type}`.toLowerCase().includes(term))
         return false;
       return true;
     });
+
 
     const value = (p: (typeof list)[number]) => p.sale_price ?? p.price ?? Number.MAX_SAFE_INTEGER;
     if (search.ordem === "menor-preco") list = [...list].sort((a, b) => value(a) - value(b));

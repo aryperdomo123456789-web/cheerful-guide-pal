@@ -164,6 +164,7 @@ export type Database = {
           site_id: string
           slug: string
           sort_order: number
+          tags: string[]
           updated_at: string
           wood_type: string
         }
@@ -184,6 +185,7 @@ export type Database = {
           site_id: string
           slug: string
           sort_order?: number
+          tags?: string[]
           updated_at?: string
           wood_type?: string
         }
@@ -204,6 +206,7 @@ export type Database = {
           site_id?: string
           slug?: string
           sort_order?: number
+          tags?: string[]
           updated_at?: string
           wood_type?: string
         }
