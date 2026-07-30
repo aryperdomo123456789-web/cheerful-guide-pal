@@ -1,0 +1,1 @@
+UPDATE public.site_settings SET brand_name = 'K&E Móveis Rústicos', tagline = 'Móveis de madeira maciça de demolição — direto da fábrica', hero_title = COALESCE(NULLIF(hero_title,''), 'Móveis rústicos em madeira maciça'), language = 'pt-BR', currency = 'BRL' WHERE site_id = '67225b37-6f32-4e66-8e7f-77b48e4f2719';
