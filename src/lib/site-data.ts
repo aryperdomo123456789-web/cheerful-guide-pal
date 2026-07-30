@@ -1,116 +1,55 @@
 import { supabase } from "@/integrations/supabase/client";
 
-export type SiteTheme = "rustico" | "moderno";
+export type {
+  Ambiente,
+  Category,
+  Lead,
+  LeadStatus,
+  Product,
+  Site,
+  SiteSettings,
+  SiteTheme,
+  Testimonial,
+} from "@/lib/site-types";
 
-export type Site = {
-  id: string;
-  slug: string;
-  name: string;
-  theme: string;
-  is_primary: boolean;
-  is_active: boolean;
-  sort_order: number;
-};
+import type {
+  Ambiente,
+  Category,
+  Product,
+  Site,
+  SiteSettings,
+  Testimonial,
+} from "@/lib/site-types";
 
-export type SiteSettings = {
-  id: string;
-  site_id: string;
-  brand_name: string;
-  tagline: string;
-  hero_title: string;
-  hero_subtitle: string;
-  hero_cta: string;
-  about_text: string;
-  phone: string;
-  whatsapp: string;
-  email: string;
-  address: string;
-  opening_hours: string;
-  instagram: string;
-  facebook: string;
-  years_experience: number;
-  projects_done: number;
-  show_prices: boolean;
-  language: string;
-  currency: string;
-  favicon_url: string;
-  popup_enabled: boolean;
-  popup_title: string;
-  popup_subtitle: string;
-  popup_cta: string;
-  popup_image_url: string;
-  popup_coupon: string;
-};
+/** UUID neutro: mantém a query válida enquanto o site ainda não resolveu. */
+const NIL_UUID = "00000000-0000-0000-0000-000000000000";
 
-export type Category = {
-  id: string;
-  site_id: string;
-  name: string;
-  slug: string;
-  description: string;
-  image_url: string | null;
-  sort_order: number;
-  is_active: boolean;
-};
+/** Tabelas que pertencem a um site (multi-tenant). */
+type SiteScopedTable = "site_settings" | "categories" | "ambientes" | "products" | "testimonials";
 
-export type Ambiente = {
-  id: string;
-  site_id: string;
-  name: string;
-  slug: string;
-  sort_order: number;
-  is_active: boolean;
-};
+/**
+ * Fábrica única para todas as listas com escopo de site.
+ * Antes cada entidade repetia o mesmo bloco de select/eq/order/throw.
+ */
+function siteScopedList<T>(table: SiteScopedTable, siteId: string | null | undefined) {
+  return {
+    queryKey: [table, siteId ?? null] as const,
+    enabled: Boolean(siteId),
+    queryFn: async (): Promise<T[]> => {
+      const { data, error } = await supabase
+        .from(table)
+        .select("*")
+        .eq("site_id", siteId ?? NIL_UUID)
+        .order("sort_order");
+      if (error) throw error;
+      return (data ?? []) as T[];
+    },
+  };
+}
 
-export type Product = {
-  id: string;
-  site_id: string;
-  name: string;
-  slug: string;
-  short_description: string;
-  description: string;
-  wood_type: string;
-  dimensions: string;
-  price: number | null;
-  sale_price: number | null;
-  images: string[];
-  /** Etiquetas extras: permitem que a peça apareça em abas como Promoções ou Pronta Entrega. */
-  tags?: string[] | null;
-
-  category_id: string | null;
-  ambiente_id: string | null;
-  is_featured: boolean;
-  is_active: boolean;
-  sort_order: number;
-};
-
-export type Testimonial = {
-  id: string;
-  site_id: string;
-  author: string;
-  city: string;
-  content: string;
-  rating: number;
-  is_active: boolean;
-  sort_order: number;
-};
-
-export type Lead = {
-  id: string;
-  site_id: string | null;
-  name: string;
-  phone: string;
-  email: string;
-  city: string;
-  message: string;
-  product_name: string;
-  status: string;
-  created_at: string;
-};
-
-/** Lista de sites publicados (o painel usa a mesma query). */
+/** Lista de sites publicados (site público e painel usam a mesma query). */
 export const sitesQuery = {
-  queryKey: ["sites"],
+  queryKey: ["sites"] as const,
   queryFn: async (): Promise<Site[]> => {
     const { data, error } = await supabase.from("sites").select("*").order("sort_order");
     if (error) throw error;
@@ -118,78 +57,33 @@ export const sitesQuery = {
   },
 };
 
-const empty = "00000000-0000-0000-0000-000000000000";
-
 export const settingsQuery = (siteId?: string | null) => ({
-  queryKey: ["site_settings", siteId ?? null],
+  queryKey: ["site_settings", siteId ?? null] as const,
   enabled: Boolean(siteId),
   queryFn: async (): Promise<SiteSettings | null> => {
     const { data, error } = await supabase
       .from("site_settings")
       .select("*")
-      .eq("site_id", siteId ?? empty)
+      .eq("site_id", siteId ?? NIL_UUID)
       .limit(1)
       .maybeSingle();
     if (error) throw error;
-    return data as SiteSettings | null;
+    return (data ?? null) as SiteSettings | null;
   },
 });
 
-export const categoriesQuery = (siteId?: string | null) => ({
-  queryKey: ["categories", siteId ?? null],
-  enabled: Boolean(siteId),
-  queryFn: async (): Promise<Category[]> => {
-    const { data, error } = await supabase
-      .from("categories")
-      .select("*")
-      .eq("site_id", siteId ?? empty)
-      .order("sort_order");
-    if (error) throw error;
-    return (data ?? []) as Category[];
-  },
-});
+export const categoriesQuery = (siteId?: string | null) =>
+  siteScopedList<Category>("categories", siteId);
 
-export const ambientesQuery = (siteId?: string | null) => ({
-  queryKey: ["ambientes", siteId ?? null],
-  enabled: Boolean(siteId),
-  queryFn: async (): Promise<Ambiente[]> => {
-    const { data, error } = await supabase
-      .from("ambientes")
-      .select("*")
-      .eq("site_id", siteId ?? empty)
-      .order("sort_order");
-    if (error) throw error;
-    return (data ?? []) as Ambiente[];
-  },
-});
+export const ambientesQuery = (siteId?: string | null) =>
+  siteScopedList<Ambiente>("ambientes", siteId);
 
-export const productsQuery = (siteId?: string | null) => ({
-  queryKey: ["products", siteId ?? null],
-  enabled: Boolean(siteId),
-  queryFn: async (): Promise<Product[]> => {
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .eq("site_id", siteId ?? empty)
-      .order("sort_order");
-    if (error) throw error;
-    return (data ?? []) as Product[];
-  },
-});
+export const productsQuery = (siteId?: string | null) => siteScopedList<Product>("products", siteId);
 
-export const testimonialsQuery = (siteId?: string | null) => ({
-  queryKey: ["testimonials", siteId ?? null],
-  enabled: Boolean(siteId),
-  queryFn: async (): Promise<Testimonial[]> => {
-    const { data, error } = await supabase
-      .from("testimonials")
-      .select("*")
-      .eq("site_id", siteId ?? empty)
-      .order("sort_order");
-    if (error) throw error;
-    return (data ?? []) as Testimonial[];
-  },
-});
+export const testimonialsQuery = (siteId?: string | null) =>
+  siteScopedList<Testimonial>("testimonials", siteId);
+
+/* ---------------- formatação ---------------- */
 
 export function formatPrice(value: number | null | undefined) {
   if (value == null) return "Sob consulta";
