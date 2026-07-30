@@ -85,11 +85,6 @@ export function SiteFooter() {
                 {t("contact.title")}
               </SiteLink>
             </li>
-            <li>
-              <Link to="/auth" className="inline-flex min-h-11 items-center text-sidebar-foreground/60 hover:text-sidebar-foreground sm:min-h-0">
-                {t("nav.admin")}
-              </Link>
-            </li>
           </ul>
         </div>
 
