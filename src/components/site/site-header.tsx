@@ -46,9 +46,12 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <SiteSwitcher className="hidden h-9 w-[190px] text-xs lg:flex" />
+        <SiteSwitcher className="hidden h-9 w-[190px] shrink-0 text-xs lg:flex" />
 
-        <Button asChild className="hidden bg-ember text-ember-foreground hover:bg-ember/90 sm:inline-flex">
+        <Button
+          asChild
+          className="hidden shrink-0 bg-ember text-ember-foreground hover:bg-ember/90 sm:inline-flex"
+        >
           <a
             href={whatsappLink(settings?.whatsapp ?? "", t("wa.generic"))}
             target="_blank"
@@ -61,11 +64,17 @@ export function SiteHeader() {
 
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="md:hidden" aria-label={t("nav.menu")}>
+            <Button
+              variant="outline"
+              size="icon"
+              className="size-11 shrink-0 md:hidden"
+              aria-label={t("nav.menu")}
+            >
               <Menu className="size-5" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-72">
+          <SheetContent side="right" className="w-[85vw] max-w-sm overflow-y-auto">
+
             <div className="mt-10">
               <p className="mb-2 px-3 text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
                 {t("nav.brandTheme")}
