@@ -33,6 +33,8 @@ export type SiteSettings = {
   show_prices: boolean;
   language: string;
   currency: string;
+  favicon_url: string;
+
 };
 
 export type Category = {
