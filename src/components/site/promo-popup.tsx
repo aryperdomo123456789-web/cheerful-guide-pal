@@ -9,10 +9,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
 import { useSite } from "@/lib/site-context";
 import { useAutoTranslate } from "@/lib/auto-translate";
+import { POPUP_LEAD_TAG } from "@/lib/leads";
 
-export const POPUP_LEAD_TAG = "Popup - Cupom";
-
-const schema = z.object({
+const popupLeadSchema = z.object({
   name: z.string().trim().min(2, "Informe seu nome").max(100),
   email: z.string().trim().email("E-mail inválido").max(255),
 });
@@ -56,7 +55,7 @@ export function PromoPopup() {
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const parsed = schema.safeParse(values);
+    const parsed = popupLeadSchema.safeParse(values);
     if (!parsed.success) {
       toast.error(parsed.error.issues[0]?.message ?? t("popup.error"));
       return;

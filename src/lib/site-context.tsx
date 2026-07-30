@@ -84,44 +84,40 @@ export function SiteProvider({ slug, children }: { slug?: string; children: Reac
 
 type LinkTarget = { to: string; params?: Record<string, string> };
 
+/** Rotas do site principal (raiz) e dos sites secundários (/s/$site). */
+const ROOT_ROUTES: Record<SitePage, string> = {
+  home: "/",
+  produtos: "/produtos",
+  produto: "/produtos/$slug",
+  sobre: "/sobre",
+  contato: "/contato",
+};
+
+const TENANT_ROUTES: Record<SitePage, string> = {
+  home: "/s/$site",
+  produtos: "/s/$site/produtos",
+  produto: "/s/$site/produto/$slug",
+  sobre: "/s/$site/sobre",
+  contato: "/s/$site/contato",
+};
+
 /** Resolve o destino de uma página respeitando o site atual. */
 export function useSiteHref() {
   const { routeSlug } = useSite();
 
-  return useMemo(() => {
-    return (page: SitePage, productSlug?: string): LinkTarget => {
-      if (!routeSlug) {
-        switch (page) {
-          case "home":
-            return { to: "/" };
-          case "produtos":
-            return { to: "/produtos" };
-          case "produto":
-            return { to: "/produtos/$slug", params: { slug: productSlug ?? "" } };
-          case "sobre":
-            return { to: "/sobre" };
-          case "contato":
-            return { to: "/contato" };
-        }
-      }
-      switch (page) {
-        case "home":
-          return { to: "/s/$site", params: { site: routeSlug } };
-        case "produtos":
-          return { to: "/s/$site/produtos", params: { site: routeSlug } };
-        case "produto":
-          return {
-            to: "/s/$site/produto/$slug",
-            params: { site: routeSlug, slug: productSlug ?? "" },
-          };
-        case "sobre":
-          return { to: "/s/$site/sobre", params: { site: routeSlug } };
-        case "contato":
-          return { to: "/s/$site/contato", params: { site: routeSlug } };
-      }
-    };
-  }, [routeSlug]);
+  return useMemo(
+    () =>
+      (page: SitePage, productSlug?: string): LinkTarget => {
+        const to = routeSlug ? TENANT_ROUTES[page] : ROOT_ROUTES[page];
+        const params: Record<string, string> = {};
+        if (routeSlug) params.site = routeSlug;
+        if (page === "produto") params.slug = productSlug ?? "";
+        return Object.keys(params).length ? { to, params } : { to };
+      },
+    [routeSlug],
+  );
 }
+
 
 /** Link ciente do site atual: <SiteLink page="produtos" /> */
 export function SiteLink({
