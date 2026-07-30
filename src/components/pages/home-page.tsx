@@ -36,15 +36,24 @@ export function HomePageView() {
           alt={settings?.hero_title ?? ""}
           className="absolute inset-0 -z-10 size-full object-cover"
         />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/80 via-black/60 to-black/25" />
-        <div className="site-container py-28 sm:py-36">
-          <p className="text-xs uppercase tracking-[0.3em] text-white/70">{settings?.tagline}</p>
-          <h1 className="mt-4 max-w-2xl font-display text-4xl leading-tight text-white sm:text-6xl">
+        <div className="absolute inset-0 -z-10 bg-linear-to-b from-black/80 via-black/65 to-black/40 sm:bg-linear-to-r sm:from-black/80 sm:via-black/60 sm:to-black/25" />
+        <div className="site-container py-16 sm:py-28 lg:py-36">
+          <p className="text-[0.65rem] uppercase tracking-[0.28em] text-white/70 sm:text-xs sm:tracking-[0.3em]">
+            {settings?.tagline}
+          </p>
+          <h1 className="mt-3 max-w-2xl font-display text-3xl leading-tight text-white sm:mt-4 sm:text-5xl lg:text-6xl">
             {settings?.hero_title}
           </h1>
-          <p className="mt-5 max-w-xl text-base text-white/80 sm:text-lg">{settings?.hero_subtitle}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button asChild size="lg" className="bg-ember text-ember-foreground hover:bg-ember/90">
+          <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/80 sm:mt-5 sm:text-lg">
+            {settings?.hero_subtitle}
+          </p>
+          <div className="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
+            <Button
+              asChild
+              size="lg"
+              className="w-full bg-ember text-ember-foreground hover:bg-ember/90 sm:w-auto"
+            >
+
               <a
                 href={whatsappLink(settings?.whatsapp ?? "", t("wa.quote"))}
                 target="_blank"
