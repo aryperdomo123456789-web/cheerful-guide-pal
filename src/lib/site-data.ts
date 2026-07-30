@@ -74,6 +74,9 @@ export type Product = {
   price: number | null;
   sale_price: number | null;
   images: string[];
+  /** Etiquetas extras: permitem que a peça apareça em abas como Promoções ou Pronta Entrega. */
+  tags?: string[] | null;
+
   category_id: string | null;
   ambiente_id: string | null;
   is_featured: boolean;
