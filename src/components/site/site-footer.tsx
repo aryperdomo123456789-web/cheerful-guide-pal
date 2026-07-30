@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import { Clock, Instagram, Facebook, Mail, MapPin, Phone } from "lucide-react";
 
 import { useI18n } from "@/lib/i18n";
@@ -84,11 +83,6 @@ export function SiteFooter() {
               <SiteLink page="contato" className="inline-flex min-h-11 items-center text-sidebar-foreground/80 hover:text-sidebar-foreground sm:min-h-0">
                 {t("contact.title")}
               </SiteLink>
-            </li>
-            <li>
-              <Link to="/auth" className="inline-flex min-h-11 items-center text-sidebar-foreground/60 hover:text-sidebar-foreground sm:min-h-0">
-                {t("nav.admin")}
-              </Link>
             </li>
           </ul>
         </div>

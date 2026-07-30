@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import { Menu, Phone } from "lucide-react";
 import { useState } from "react";
 
@@ -99,13 +98,6 @@ export function SiteHeader() {
                   {item.label}
                 </SiteLink>
               ))}
-              <Link
-                to="/auth"
-                onClick={() => setOpen(false)}
-                className="rounded-md px-3 py-3 text-sm text-muted-foreground hover:bg-muted"
-              >
-                {t("nav.admin")}
-              </Link>
             </nav>
           </SheetContent>
         </Sheet>
