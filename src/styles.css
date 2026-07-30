@@ -218,6 +218,18 @@
       font-size: 16px;
     }
   }
+
+  /* Rolagem horizontal suave e sem barra visível (abas do admin, galerias) */
+  [class*="overflow-x-auto"] {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    overscroll-behavior-x: contain;
+  }
+
+  /* Respeita áreas seguras (notch / barra de gestos) em elementos fixos */
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }
 
 @utility text-balance-tight {
