@@ -18,30 +18,30 @@ export function AboutPageView() {
   return (
     <SiteLayout>
       <div className="border-b border-border bg-sand">
-        <div className="mx-auto max-w-6xl px-4 py-12">
+        <div className="site-container py-10 sm:py-12">
           <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">{t("about.eyebrow")}</p>
-          <h1 className="mt-2 font-display text-4xl">{t("about.title")}</h1>
+          <h1 className="mt-2 font-display text-3xl sm:text-4xl">{t("about.title")}</h1>
         </div>
       </div>
 
-      <section className="mx-auto grid max-w-6xl gap-10 px-4 py-14 lg:grid-cols-2 lg:items-center">
+      <section className="site-container grid gap-8 py-10 sm:py-14 lg:grid-cols-2 lg:gap-10 lg:items-center">
         <img
           src="/produtos/oficina.jpg"
           alt={t("about.title")}
           className="aspect-4/3 w-full rounded-lg object-cover"
         />
         <div>
-          <h2 className="font-display text-3xl">{t("about.subtitle")}</h2>
+          <h2 className="font-display text-2xl sm:text-3xl">{t("about.subtitle")}</h2>
           <p className="mt-4 whitespace-pre-line text-muted-foreground">{settings?.about_text}</p>
-          <div className="mt-8 grid grid-cols-2 gap-6">
+          <div className="mt-8 grid grid-cols-2 gap-4 sm:gap-6">
             <div>
-              <p className="font-display text-3xl text-wood">{settings?.years_experience}+</p>
+              <p className="font-display text-2xl text-wood sm:text-3xl">{settings?.years_experience}+</p>
               <p className="text-xs uppercase tracking-wide text-muted-foreground">
                 {t("home.stats.years")}
               </p>
             </div>
             <div>
-              <p className="font-display text-3xl text-wood">
+              <p className="font-display text-2xl text-wood sm:text-3xl">
                 {formatNumber(settings?.projects_done ?? 0)}+
               </p>
               <p className="text-xs uppercase tracking-wide text-muted-foreground">
@@ -52,8 +52,8 @@ export function AboutPageView() {
         </div>
       </section>
 
-      <section className="border-y border-border bg-card py-14">
-        <div className="mx-auto grid max-w-6xl gap-8 px-4 sm:grid-cols-3">
+      <section className="border-y border-border bg-card py-10 sm:py-14">
+        <div className="site-container grid gap-6 sm:grid-cols-3 sm:gap-8">
           {valores.map((v) => (
             <div key={v.title}>
               <v.icon className="size-6 text-wood" />
@@ -64,10 +64,10 @@ export function AboutPageView() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-3xl px-4 py-16 text-center">
-        <h2 className="font-display text-3xl">{t("about.ctaTitle")}</h2>
+      <section className="mx-auto max-w-3xl px-4 py-12 text-center sm:py-16">
+        <h2 className="font-display text-2xl sm:text-3xl">{t("about.ctaTitle")}</h2>
         <p className="mt-3 text-muted-foreground">{t("about.ctaText")}</p>
-        <div className="mt-7 flex flex-wrap justify-center gap-3">
+        <div className="mt-7 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:flex-wrap">
           <Button asChild size="lg" className="bg-ember text-ember-foreground hover:bg-ember/90">
             <SiteLink page="contato">{t("about.ctaPrimary")}</SiteLink>
           </Button>

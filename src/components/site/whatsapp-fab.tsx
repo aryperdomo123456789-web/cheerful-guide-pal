@@ -15,7 +15,7 @@ export function WhatsappFab() {
       target="_blank"
       rel="noreferrer"
       aria-label={t("home.ctaWhatsapp")}
-      className="fixed bottom-5 right-5 z-50 flex items-center gap-2 rounded-full bg-ember px-4 py-3 text-sm font-semibold text-ember-foreground shadow-lg transition-transform hover:scale-105"
+      className="fixed bottom-4 right-4 z-50 flex min-h-12 items-center gap-2 rounded-full bg-ember px-4 py-3 text-sm sm:bottom-5 sm:right-5 font-semibold text-ember-foreground shadow-lg transition-transform hover:scale-105"
     >
       <MessageCircle className="size-5" />
       <span className="hidden sm:inline">WhatsApp</span>

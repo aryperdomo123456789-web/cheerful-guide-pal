@@ -1,5 +1,5 @@
-import { useMemo } from "react";
-import { SlidersHorizontal, X } from "lucide-react";
+import { useMemo, useState } from "react";
+import { ChevronDown, SlidersHorizontal, X } from "lucide-react";
 
 import { ProductCard } from "@/components/site/product-card";
 import { SiteLayout } from "@/components/site/site-layout";
@@ -29,6 +29,7 @@ export function ProductsPageView({
   const { settings, products, categories, ambientes, isLoading } = useSite();
   const { t, language } = useI18n();
   const showPrices = settings?.show_prices ?? true;
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const filtered = useMemo(() => {
     const categoryId = categories.find((c) => c.slug === search.categoria)?.id;
@@ -55,24 +56,40 @@ export function ProductsPageView({
   return (
     <SiteLayout>
       <div className="border-b border-border bg-sand">
-        <div className="mx-auto max-w-6xl px-4 py-12">
+        <div className="site-container py-10 sm:py-12">
           <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">{t("products.eyebrow")}</p>
-          <h1 className="mt-2 font-display text-4xl">{t("products.title")}</h1>
-          <p className="mt-3 max-w-2xl text-muted-foreground">{t("products.intro")}</p>
+          <h1 className="mt-2 font-display text-3xl sm:text-4xl">{t("products.title")}</h1>
+          <p className="mt-3 max-w-2xl text-sm text-muted-foreground sm:text-base">{t("products.intro")}</p>
         </div>
       </div>
 
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 lg:grid-cols-[260px_1fr]">
-        <aside className="space-y-6">
-          <div className="flex items-center gap-2">
-            <SlidersHorizontal className="size-4 text-wood" />
-            <p className="font-display text-lg">{t("products.filters")}</p>
+      <div className="site-container grid gap-6 py-8 sm:py-10 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-8">
+        <div>
+          <Button
+            type="button"
+            variant="outline"
+            className="mb-4 w-full justify-between lg:hidden"
+            onClick={() => setFiltersOpen((v) => !v)}
+            aria-expanded={filtersOpen}
+          >
+            <span className="flex items-center gap-2">
+              <SlidersHorizontal className="size-4 text-wood" />
+              {t("products.filters")}
+            </span>
+            <ChevronDown className={`size-4 transition-transform ${filtersOpen ? "rotate-180" : ""}`} />
+          </Button>
+
+          <aside className={`${filtersOpen ? "block" : "hidden"} space-y-6 lg:block`}>
+            <div className="hidden items-center gap-2 lg:flex">
+              <SlidersHorizontal className="size-4 text-wood" />
+              <p className="font-display text-lg">{t("products.filters")}</p>
+            </div>
             {hasFilters ? (
-              <Button variant="ghost" size="sm" className="ml-auto h-7 px-2 text-xs" onClick={clearFilters}>
+              <Button variant="ghost" size="sm" className="h-8 px-2 text-xs" onClick={clearFilters}>
                 <X className="mr-1 size-3" /> {t("products.clear")}
               </Button>
             ) : null}
-          </div>
+
 
           <div className="grid gap-2">
             <Label htmlFor="busca">{t("products.search")}</Label>
@@ -123,10 +140,12 @@ export function ProductsPageView({
               ))}
             </div>
           </div>
-        </aside>
+          </aside>
+        </div>
 
-        <section>
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+
+        <section className="min-w-0">
+          <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
             <p className="text-sm text-muted-foreground">
               {isLoading ? t("products.loading") : t("products.count", { n: filtered.length })}
             </p>
@@ -134,7 +153,7 @@ export function ProductsPageView({
               value={search.ordem ?? "relevancia"}
               onValueChange={(v) => setSearch({ ordem: v as ProductSearch["ordem"] })}
             >
-              <SelectTrigger className="w-52">
+              <SelectTrigger className="w-full sm:w-52">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -147,7 +166,7 @@ export function ProductsPageView({
           </div>
 
           {filtered.length === 0 && !isLoading ? (
-            <div className="rounded-lg border border-dashed border-border p-12 text-center">
+            <div className="rounded-lg border border-dashed border-border p-8 text-center sm:p-12">
               <p className="font-display text-xl">{t("products.emptyTitle")}</p>
               <p className="mt-2 text-sm text-muted-foreground">{t("products.emptyText")}</p>
               <Button asChild className="mt-5 bg-ember text-ember-foreground hover:bg-ember/90">
@@ -155,7 +174,7 @@ export function ProductsPageView({
               </Button>
             </div>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-5 min-[420px]:grid-cols-2 sm:gap-6 xl:grid-cols-3">
               {filtered.map((p) => (
                 <ProductCard key={p.id} product={p} showPrice={showPrices} />
               ))}
@@ -172,7 +191,7 @@ function FilterButton({ active, onClick, label }: { active: boolean; onClick: ()
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-md px-3 py-2 text-left text-sm transition-colors ${
+      className={`w-full rounded-md px-3 py-2.5 text-left text-sm transition-colors ${
         active ? "bg-wood text-wood-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground"
       }`}
     >
@@ -186,7 +205,7 @@ function FilterChip({ active, onClick, label }: { active: boolean; onClick: () =
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
+      className={`rounded-full border px-3 py-2 text-xs font-medium transition-colors ${
         active
           ? "border-ember bg-ember text-ember-foreground"
           : "border-border text-muted-foreground hover:border-wood hover:text-foreground"

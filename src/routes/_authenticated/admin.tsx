@@ -114,18 +114,18 @@ function AdminPage() {
     <AdminSiteContext.Provider value={activeSite}>
       <div className="min-h-screen bg-sand">
         <header className="border-b border-border bg-card">
-          <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-4">
-            <div className="mr-auto">
-              <p className="font-display text-xl">Painel dos sites</p>
-              <p className="text-xs text-muted-foreground">
+          <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-4 sm:px-6">
+            <div className="mr-auto min-w-0">
+              <p className="truncate font-display text-lg sm:text-xl">Painel dos sites</p>
+              <p className="hidden text-xs text-muted-foreground sm:block">
                 Gerencie todas as marcas em um só lugar
               </p>
             </div>
 
-            <div className="flex items-center gap-2">
-              <Globe className="size-4 text-muted-foreground" />
+            <div className="flex w-full items-center gap-2 sm:w-auto">
+              <Globe className="size-4 shrink-0 text-muted-foreground" />
               <Select value={activeSite ?? ""} onValueChange={(v) => setActiveSite(v)}>
-                <SelectTrigger className="w-56">
+                <SelectTrigger className="w-full sm:w-56">
                   <SelectValue placeholder="Selecione o site" />
                 </SelectTrigger>
                 <SelectContent>
@@ -159,16 +159,16 @@ function AdminPage() {
           </div>
         </header>
 
-        <div className="mx-auto max-w-7xl px-4 py-8">
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
           <Tabs defaultValue="produtos">
-            <TabsList className="flex h-auto flex-wrap justify-start">
-              <TabsTrigger value="produtos">Produtos</TabsTrigger>
-              <TabsTrigger value="categorias">Categorias</TabsTrigger>
-              <TabsTrigger value="ambientes">Ambientes</TabsTrigger>
-              <TabsTrigger value="depoimentos">Depoimentos</TabsTrigger>
-              <TabsTrigger value="orcamentos">Orçamentos</TabsTrigger>
-              <TabsTrigger value="config">Configurações</TabsTrigger>
-              <TabsTrigger value="conta">Minha conta</TabsTrigger>
+            <TabsList className="flex h-auto w-full flex-nowrap justify-start gap-1 overflow-x-auto sm:flex-wrap">
+              <TabsTrigger className="shrink-0" value="produtos">Produtos</TabsTrigger>
+              <TabsTrigger className="shrink-0" value="categorias">Categorias</TabsTrigger>
+              <TabsTrigger className="shrink-0" value="ambientes">Ambientes</TabsTrigger>
+              <TabsTrigger className="shrink-0" value="depoimentos">Depoimentos</TabsTrigger>
+              <TabsTrigger className="shrink-0" value="orcamentos">Orçamentos</TabsTrigger>
+              <TabsTrigger className="shrink-0" value="config">Configurações</TabsTrigger>
+              <TabsTrigger className="shrink-0" value="conta">Minha conta</TabsTrigger>
             </TabsList>
 
             <TabsContent value="produtos" className="mt-6">
@@ -201,9 +201,9 @@ function AdminPage() {
 
 function Panel({ children, title, action }: { children: React.ReactNode; title: string; action?: React.ReactNode }) {
   return (
-    <section className="rounded-lg border border-border bg-card p-6">
-      <div className="mb-5 flex items-center justify-between gap-3">
-        <h2 className="font-display text-xl">{title}</h2>
+    <section className="rounded-lg border border-border bg-card p-4 sm:p-6">
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <h2 className="font-display text-lg sm:text-xl">{title}</h2>
         {action}
       </div>
       {children}
@@ -488,7 +488,7 @@ function ProductsAdmin() {
               onChange={(e) => setForm({ ...form, sort_order: Number(e.target.value) })}
             />
           </div>
-          <Button onClick={save} className="ml-auto bg-ember text-ember-foreground hover:bg-ember/90">
+          <Button onClick={save} className="w-full bg-ember text-ember-foreground hover:bg-ember/90 sm:ml-auto sm:w-auto">
             {editingId ? "Salvar alterações" : "Criar produto"}
           </Button>
         </div>
@@ -499,14 +499,14 @@ function ProductsAdmin() {
           {(products ?? []).map((p) => (
             <div
               key={p.id}
-              className="flex flex-wrap items-center gap-4 rounded-md border border-border p-3"
+              className="flex flex-wrap items-center gap-3 rounded-md border border-border p-3 sm:gap-4"
             >
               <img
                 src={p.images?.[0] ?? "/produtos/oficina.jpg"}
                 alt=""
-                className="size-14 rounded object-cover"
+                className="size-12 shrink-0 rounded object-cover sm:size-14"
               />
-              <div className="min-w-40 flex-1">
+              <div className="min-w-[10rem] flex-1">
                 <p className="font-medium">{p.name}</p>
                 <p className="text-xs text-muted-foreground">
                   {formatPrice(p.sale_price ?? p.price)} · {p.dimensions || "sob medida"}
@@ -569,7 +569,7 @@ function CategoriesAdmin() {
 
   return (
     <Panel title="Categorias">
-      <div className="grid gap-3 sm:grid-cols-[1fr_2fr_auto]">
+      <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,2fr)_auto]">
         <Input placeholder="Nome" value={name} onChange={(e) => setName(e.target.value)} />
         <Input
           placeholder="Descrição"
@@ -583,14 +583,14 @@ function CategoriesAdmin() {
 
       <div className="mt-6 grid gap-3">
         {(categories ?? []).map((c) => (
-          <div key={c.id} className="flex flex-wrap items-center gap-3 rounded-md border border-border p-3">
+          <div key={c.id} className="flex flex-col gap-3 rounded-md border border-border p-3 sm:flex-row sm:flex-wrap sm:items-center">
             <Input
-              className="w-44"
+              className="w-full sm:w-44"
               defaultValue={c.name}
               onBlur={(e) => e.target.value !== c.name && update(c.id, { name: e.target.value })}
             />
             <Input
-              className="min-w-48 flex-1"
+              className="w-full min-w-0 flex-1 sm:min-w-48"
               defaultValue={c.description}
               onBlur={(e) => e.target.value !== c.description && update(c.id, { description: e.target.value })}
             />
@@ -646,7 +646,7 @@ function AmbientesAdmin() {
 
   return (
     <Panel title="Ambientes">
-      <div className="flex gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row">
         <Input placeholder="Ex.: Varanda" value={name} onChange={(e) => setName(e.target.value)} />
         <Button onClick={add} className="bg-ember text-ember-foreground hover:bg-ember/90">
           <Plus className="mr-2 size-4" /> Adicionar
@@ -654,7 +654,7 @@ function AmbientesAdmin() {
       </div>
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
         {(ambientes ?? []).map((a) => (
-          <div key={a.id} className="flex items-center gap-3 rounded-md border border-border p-3">
+          <div key={a.id} className="flex flex-wrap items-center gap-3 rounded-md border border-border p-3">
             <Input
               defaultValue={a.name}
               onBlur={(e) => e.target.value !== a.name && update(a.id, { name: e.target.value })}
@@ -707,7 +707,7 @@ function TestimonialsAdmin() {
   return (
     <div className="space-y-6">
       <Panel title="Novo depoimento">
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           <Input
             placeholder="Nome do cliente"
             value={form.author}
@@ -809,13 +809,13 @@ function LeadsAdmin() {
       ) : (
         <div className="grid gap-3">
           {leads.map((l) => (
-            <div key={l.id} className="rounded-md border border-border p-4">
+            <div key={l.id} className="rounded-md border border-border p-3 sm:p-4">
               <div className="flex flex-wrap items-center gap-3">
                 <p className="font-medium">{l.name}</p>
                 <span className="text-sm text-muted-foreground">{l.phone}</span>
                 {l.email ? <span className="text-sm text-muted-foreground">{l.email}</span> : null}
                 {l.city ? <Badge variant="secondary">{l.city}</Badge> : null}
-                <span className="ml-auto text-xs text-muted-foreground">
+                <span className="text-xs text-muted-foreground sm:ml-auto">
                   {new Date(l.created_at).toLocaleString("pt-BR")}
                 </span>
               </div>
@@ -825,9 +825,9 @@ function LeadsAdmin() {
                 </p>
               ) : null}
               {l.message ? <p className="mt-1 text-sm text-muted-foreground">{l.message}</p> : null}
-              <div className="mt-3 flex items-center gap-3">
+              <div className="mt-3 flex flex-wrap items-center gap-3">
                 <Select value={l.status} onValueChange={(v) => update(l.id, v)}>
-                  <SelectTrigger className="w-44">
+                  <SelectTrigger className="w-full sm:w-44">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -920,7 +920,7 @@ function SettingsAdmin() {
           label="Ícone do site (favicon)"
           hint="Imagem quadrada (PNG/ICO/SVG) que aparece na aba do navegador."
         >
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             {form.favicon_url ? (
               <img
                 src={form.favicon_url}

@@ -69,12 +69,12 @@ function AuthPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-sand px-4">
-      <div className="w-full max-w-md rounded-lg border border-border bg-card p-8">
+    <div className="flex min-h-screen items-center justify-center bg-sand px-4 py-10">
+      <div className="w-full max-w-md rounded-lg border border-border bg-card p-5 sm:p-8">
         <Link to="/" className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
           ← voltar ao site
         </Link>
-        <h1 className="mt-4 font-display text-3xl">Área administrativa</h1>
+        <h1 className="mt-4 font-display text-2xl sm:text-3xl">Área administrativa</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Gerencie produtos, categorias, depoimentos e orçamentos.
         </p>
@@ -119,7 +119,7 @@ function AuthPage() {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="bg-ember text-ember-foreground hover:bg-ember/90"
+                  className="w-full bg-ember text-ember-foreground hover:bg-ember/90"
                 >
                   {loading ? "Aguarde..." : mode === "in" ? "Entrar" : "Criar acesso"}
                 </Button>
