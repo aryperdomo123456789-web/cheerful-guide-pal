@@ -58,7 +58,7 @@ export function PromoPopup() {
     event.preventDefault();
     const parsed = schema.safeParse(values);
     if (!parsed.success) {
-      toast.error(parsed.error.issues[0]?.message ?? t("form.error"));
+      toast.error(parsed.error.issues[0]?.message ?? t("popup.error"));
       return;
     }
     setSending(true);
