@@ -1,7 +1,9 @@
+import { useEffect, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { useI18n } from "@/lib/i18n";
 import { SiteLink, useSite } from "@/lib/site-context";
 import { type Product } from "@/lib/site-data";
+
 
 export function ProductCard({
   product,
