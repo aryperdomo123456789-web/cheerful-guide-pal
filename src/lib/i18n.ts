@@ -924,15 +924,20 @@ export function useI18n() {
   const formatPrice = useCallback(
     (value: number | null | undefined) => {
       if (value == null) return translate(language, "card.onRequest");
-      return value.toLocaleString(language, {
-        style: "currency",
-        currency,
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      });
+      try {
+        return value.toLocaleString(language, {
+          style: "currency",
+          currency,
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        });
+      } catch {
+        return `${currency} ${value.toLocaleString(language, { maximumFractionDigits: 0 })}`;
+      }
     },
     [language, currency],
   );
+
 
   return useMemo(
     () => ({ t, language, currency, formatNumber, formatPrice }),
