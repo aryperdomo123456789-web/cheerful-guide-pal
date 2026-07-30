@@ -16,6 +16,7 @@ export function ProductCard({
   const { theme } = useSite();
   const isStore = theme === "kee";
   const cover = product.images?.[0] ?? "/produtos/oficina.jpg";
+  const alt = product.images?.[1] ?? null;
   const hasSale = product.sale_price != null && product.price != null;
   const discount =
     hasSale && product.price
@@ -23,21 +24,56 @@ export function ProductCard({
       : 0;
   const finalPrice = product.sale_price ?? product.price ?? null;
 
+  // Troca de imagem: hover no desktop, visibilidade/toque no mobile.
+  const mediaRef = useRef<HTMLDivElement>(null);
+  const [swapped, setSwapped] = useState(false);
+
+  useEffect(() => {
+    if (!alt) return;
+    const el = mediaRef.current;
+    if (!el || typeof window === "undefined") return;
+    const isTouch = window.matchMedia("(hover: none)").matches;
+    if (!isTouch) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setSwapped(entry.isIntersecting && entry.intersectionRatio > 0.65),
+      { threshold: [0, 0.65, 1] },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [alt]);
+
   return (
     <SiteLink
       page="produto"
       productSlug={product.slug}
       className="group flex flex-col overflow-hidden rounded-lg border border-border bg-card transition-shadow hover:shadow-lg"
     >
-      <div className={`relative overflow-hidden bg-muted ${isStore ? "aspect-square" : "aspect-4/3"}`}>
+      <div
+        ref={mediaRef}
+        onTouchStart={() => (alt ? setSwapped(true) : undefined)}
+        className={`relative overflow-hidden bg-muted ${isStore ? "aspect-square" : "aspect-4/3"}`}
+      >
         <img
           src={cover}
           alt={product.name}
           loading="lazy"
-          className={`size-full transition-transform duration-500 group-hover:scale-105 ${
+          className={`size-full transition-all duration-500 group-hover:scale-105 ${
             isStore ? "object-contain p-2" : "object-cover"
-          }`}
+          } ${alt ? (swapped ? "opacity-0" : "opacity-100 group-hover:opacity-0") : ""}`}
         />
+        {alt ? (
+          <img
+            src={alt}
+            alt={product.name}
+            loading="lazy"
+            aria-hidden
+            className={`absolute inset-0 size-full transition-all duration-500 group-hover:scale-105 ${
+              isStore ? "object-contain p-2" : "object-cover"
+            } ${swapped ? "opacity-100 scale-105" : "opacity-0 group-hover:opacity-100"}`}
+          />
+        ) : null}
+
         {isStore ? (
           discount > 0 ? (
             <span className="absolute left-3 top-3 flex size-12 flex-col items-center justify-center rounded-full bg-ember text-[0.65rem] font-bold leading-tight text-ember-foreground">
