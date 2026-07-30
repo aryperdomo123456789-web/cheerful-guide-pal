@@ -23,7 +23,10 @@ export function SiteHeader() {
     { page: "contato", label: t("nav.contact") },
   ];
 
+  if (theme === "kee") return <KeeHeader />;
+
   return (
+
     <header className="sticky top-0 z-40 border-b border-border/70 bg-background/95 backdrop-blur">
       <div className="site-container flex h-16 items-center gap-3 sm:h-20 sm:gap-4">
         <SiteLink page="home" className="mr-auto flex min-w-0 flex-col leading-none">
