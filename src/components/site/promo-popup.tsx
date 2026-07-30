@@ -83,19 +83,19 @@ export function PromoPopup() {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4"
+      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-black/70 p-4"
       onClick={close}
       role="presentation"
     >
       <div
-        className={`relative grid max-h-[90vh] w-full overflow-y-auto rounded-lg bg-card shadow-xl ${settings?.popup_image_url ? "max-w-3xl md:grid-cols-2" : "max-w-md"}`}
+        className={`relative my-auto grid max-h-[92dvh] w-full overflow-y-auto rounded-lg bg-card shadow-xl ${settings?.popup_image_url ? "max-w-3xl md:grid-cols-2" : "max-w-md"}`}
         onClick={(e) => e.stopPropagation()}
       >
         <button
           type="button"
           onClick={close}
           aria-label={t("popup.close")}
-          className="absolute right-3 top-3 z-10 rounded-full bg-background/80 p-2 text-foreground transition-colors hover:bg-background"
+          className="absolute right-2 top-2 z-10 flex size-11 items-center justify-center rounded-full bg-background/80 text-foreground transition-colors hover:bg-background"
         >
           <X className="size-4" />
         </button>
@@ -104,9 +104,10 @@ export function PromoPopup() {
           <img
             src={settings.popup_image_url}
             alt=""
-            className="hidden h-full max-h-[70vh] w-full object-cover md:block"
+            className="hidden h-full max-h-[70dvh] w-full object-cover md:block"
           />
         ) : null}
+
 
         <div className="flex flex-col justify-center gap-4 p-6 text-center sm:p-8">
           {done ? (
