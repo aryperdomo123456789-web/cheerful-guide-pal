@@ -1,5 +1,5 @@
-import { useMemo } from "react";
-import { SlidersHorizontal, X } from "lucide-react";
+import { useMemo, useState } from "react";
+import { ChevronDown, SlidersHorizontal, X } from "lucide-react";
 
 import { ProductCard } from "@/components/site/product-card";
 import { SiteLayout } from "@/components/site/site-layout";
@@ -29,6 +29,7 @@ export function ProductsPageView({
   const { settings, products, categories, ambientes, isLoading } = useSite();
   const { t, language } = useI18n();
   const showPrices = settings?.show_prices ?? true;
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const filtered = useMemo(() => {
     const categoryId = categories.find((c) => c.slug === search.categoria)?.id;
