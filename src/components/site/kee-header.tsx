@@ -105,14 +105,19 @@ export function KeeHeader() {
             </button>
           </form>
 
-          <div className="ml-auto flex items-center gap-3 sm:gap-5 md:ml-0">
-            <Link to="/auth" className="hidden items-center gap-2 text-sm sm:flex">
+          <div className="ml-auto flex items-center gap-1 sm:gap-3 md:ml-0">
+            <Link to="/auth" className="hidden min-h-11 items-center gap-2 px-2 text-sm sm:flex">
               <User className="size-5" />
               {t("kee.account")}
             </Link>
-            <SiteLink page="produtos" className="flex items-center gap-1 text-sm" aria-label={t("kee.catalog")}>
+            <SiteLink
+              page="produtos"
+              className="flex size-11 items-center justify-center"
+              aria-label={t("kee.catalog")}
+            >
               <ShoppingCart className="size-5" />
             </SiteLink>
+
 
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
