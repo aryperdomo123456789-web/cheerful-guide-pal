@@ -249,6 +249,12 @@ export type Database = {
           language: string
           opening_hours: string
           phone: string
+          popup_coupon: string
+          popup_cta: string
+          popup_enabled: boolean
+          popup_image_url: string
+          popup_subtitle: string
+          popup_title: string
           projects_done: number
           show_prices: boolean
           site_id: string
@@ -274,6 +280,12 @@ export type Database = {
           language?: string
           opening_hours?: string
           phone?: string
+          popup_coupon?: string
+          popup_cta?: string
+          popup_enabled?: boolean
+          popup_image_url?: string
+          popup_subtitle?: string
+          popup_title?: string
           projects_done?: number
           show_prices?: boolean
           site_id: string
@@ -299,6 +311,12 @@ export type Database = {
           language?: string
           opening_hours?: string
           phone?: string
+          popup_coupon?: string
+          popup_cta?: string
+          popup_enabled?: boolean
+          popup_image_url?: string
+          popup_subtitle?: string
+          popup_title?: string
           projects_done?: number
           show_prices?: boolean
           site_id?: string
