@@ -18,13 +18,13 @@ export function AboutPageView() {
   return (
     <SiteLayout>
       <div className="border-b border-border bg-sand">
-        <div className="mx-auto max-w-6xl px-4 py-12">
+        <div className="site-container py-12">
           <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">{t("about.eyebrow")}</p>
           <h1 className="mt-2 font-display text-4xl">{t("about.title")}</h1>
         </div>
       </div>
 
-      <section className="mx-auto grid max-w-6xl gap-10 px-4 py-14 lg:grid-cols-2 lg:items-center">
+      <section className="site-container grid gap-10 py-14 lg:grid-cols-2 lg:items-center">
         <img
           src="/produtos/oficina.jpg"
           alt={t("about.title")}
@@ -53,7 +53,7 @@ export function AboutPageView() {
       </section>
 
       <section className="border-y border-border bg-card py-14">
-        <div className="mx-auto grid max-w-6xl gap-8 px-4 sm:grid-cols-3">
+        <div className="site-container grid gap-8 sm:grid-cols-3">
           {valores.map((v) => (
             <div key={v.title}>
               <v.icon className="size-6 text-wood" />

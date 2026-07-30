@@ -55,14 +55,14 @@ export function ProductsPageView({
   return (
     <SiteLayout>
       <div className="border-b border-border bg-sand">
-        <div className="mx-auto max-w-6xl px-4 py-12">
+        <div className="site-container py-12">
           <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">{t("products.eyebrow")}</p>
           <h1 className="mt-2 font-display text-4xl">{t("products.title")}</h1>
           <p className="mt-3 max-w-2xl text-muted-foreground">{t("products.intro")}</p>
         </div>
       </div>
 
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 lg:grid-cols-[260px_1fr]">
+      <div className="site-container grid gap-8 py-10 lg:grid-cols-[260px_1fr]">
         <aside className="space-y-6">
           <div className="flex items-center gap-2">
             <SlidersHorizontal className="size-4 text-wood" />

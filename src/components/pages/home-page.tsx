@@ -37,7 +37,7 @@ export function HomePageView() {
           className="absolute inset-0 -z-10 size-full object-cover"
         />
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/80 via-black/60 to-black/25" />
-        <div className="mx-auto max-w-6xl px-4 py-28 sm:py-36">
+        <div className="site-container py-28 sm:py-36">
           <p className="text-xs uppercase tracking-[0.3em] text-white/70">{settings?.tagline}</p>
           <h1 className="mt-4 max-w-2xl font-display text-4xl leading-tight text-white sm:text-6xl">
             {settings?.hero_title}
@@ -66,7 +66,7 @@ export function HomePageView() {
       </section>
 
       <section className="border-b border-border bg-sand">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-4 py-8 sm:grid-cols-4">
+        <div className="site-container grid grid-cols-2 gap-6 py-8 sm:grid-cols-4">
           {[
             { v: `${settings?.years_experience ?? 0}+`, l: t("home.stats.years") },
             { v: `${formatNumber(settings?.projects_done ?? 0)}+`, l: t("home.stats.pieces") },
@@ -81,7 +81,7 @@ export function HomePageView() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-16">
+      <section className="site-container py-16">
         <div className="flex items-end justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
@@ -110,7 +110,7 @@ export function HomePageView() {
       </section>
 
       <section className="bg-sand py-14">
-        <div className="mx-auto max-w-6xl px-4">
+        <div className="site-container">
           <h2 className="font-display text-3xl">{t("home.roomsTitle")}</h2>
           <div className="mt-6 flex flex-wrap gap-2">
             {ambientes.map((a) => (
@@ -127,7 +127,7 @@ export function HomePageView() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-16">
+      <section className="site-container py-16">
         <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
           {t("home.workshopEyebrow")}
         </p>
@@ -145,7 +145,7 @@ export function HomePageView() {
       </section>
 
       <section className="border-y border-border bg-card py-16">
-        <div className="mx-auto grid max-w-6xl gap-8 px-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="site-container grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {diferenciais.map((d) => (
             <div key={d.title}>
               <d.icon className="size-6 text-wood" />
@@ -156,7 +156,7 @@ export function HomePageView() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-16">
+      <section className="site-container py-16">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
           <img
             src="/produtos/oficina.jpg"
@@ -183,7 +183,7 @@ export function HomePageView() {
       </section>
 
       <section className="bg-sand py-16">
-        <div className="mx-auto max-w-6xl px-4">
+        <div className="site-container">
           <h2 className="font-display text-3xl">{t("home.testimonialsTitle")}</h2>
           <div className="mt-8 grid gap-6 sm:grid-cols-3">
             {testimonials.map((tm) => (
@@ -206,7 +206,7 @@ export function HomePageView() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 text-center">
+      <section className="site-container py-20 text-center">
         <ShieldCheck className="mx-auto size-8 text-wood" />
         <h2 className="mt-4 font-display text-3xl">{t("home.ctaTitle")}</h2>
         <p className="mx-auto mt-3 max-w-xl text-muted-foreground">{t("home.ctaText")}</p>

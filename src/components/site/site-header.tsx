@@ -23,7 +23,7 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/70 bg-background/95 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center gap-4 px-4 sm:h-20">
+      <div className="site-container flex h-16 items-center gap-4 sm:h-20">
         <SiteLink page="home" className="mr-auto flex flex-col leading-none">
           <span className="font-display text-xl font-semibold tracking-tight sm:text-2xl">
             {settings?.brand_name ?? "Marcenaria"}

@@ -10,7 +10,7 @@ export function SiteFooter() {
 
   return (
     <footer className="mt-24 bg-sidebar text-sidebar-foreground">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="site-container grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <p className="font-display text-2xl">{settings?.brand_name}</p>
           <p className="mt-3 text-sm text-sidebar-foreground/70">{settings?.tagline}</p>

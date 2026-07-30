@@ -14,13 +14,13 @@ export function ContactPageView() {
   return (
     <SiteLayout>
       <div className="border-b border-border bg-sand">
-        <div className="mx-auto max-w-6xl px-4 py-12">
+        <div className="site-container py-12">
           <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">{t("contact.eyebrow")}</p>
           <h1 className="mt-2 font-display text-4xl">{t("contact.title")}</h1>
         </div>
       </div>
 
-      <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 lg:grid-cols-[1fr_340px]">
+      <div className="site-container grid gap-12 py-14 lg:grid-cols-[1fr_340px]">
         <div>
           <h2 className="font-display text-2xl">{t("contact.formTitle")}</h2>
           <p className="mt-2 text-sm text-muted-foreground">{t("contact.formText")}</p>
