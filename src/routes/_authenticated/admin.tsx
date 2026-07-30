@@ -20,6 +20,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { CURRENCIES, LANGUAGES } from "@/lib/i18n";
+import { POPUP_LEAD_TAG } from "@/components/site/promo-popup";
 import { uploadProductImage } from "@/lib/upload";
 import {
   ambientesQuery,
@@ -167,6 +168,7 @@ function AdminPage() {
               <TabsTrigger className="shrink-0" value="ambientes">Ambientes</TabsTrigger>
               <TabsTrigger className="shrink-0" value="depoimentos">Depoimentos</TabsTrigger>
               <TabsTrigger className="shrink-0" value="orcamentos">Orçamentos</TabsTrigger>
+              <TabsTrigger className="shrink-0" value="cupons">Cupom / Pop-up</TabsTrigger>
               <TabsTrigger className="shrink-0" value="config">Configurações</TabsTrigger>
               <TabsTrigger className="shrink-0" value="conta">Minha conta</TabsTrigger>
             </TabsList>
@@ -185,6 +187,9 @@ function AdminPage() {
             </TabsContent>
             <TabsContent value="orcamentos" className="mt-6">
               <LeadsAdmin key={activeSite ?? "none"} />
+            </TabsContent>
+            <TabsContent value="cupons" className="mt-6">
+              <LeadsAdmin key={`popup-${activeSite ?? "none"}`} source="popup" />
             </TabsContent>
             <TabsContent value="config" className="mt-6">
               <SettingsAdmin key={activeSite ?? "none"} />
@@ -772,11 +777,11 @@ function TestimonialsAdmin() {
 
 /* ---------------- ORÇAMENTOS ---------------- */
 
-function LeadsAdmin() {
+function LeadsAdmin({ source = "form" }: { source?: "form" | "popup" }) {
   const qc = useQueryClient();
   const siteId = useAdminSite();
   const { data: leads } = useQuery({
-    queryKey: ["leads", siteId ?? null],
+    queryKey: ["leads", siteId ?? null, source],
     enabled: Boolean(siteId),
     queryFn: async (): Promise<Lead[]> => {
       const { data, error } = await supabase
@@ -785,7 +790,11 @@ function LeadsAdmin() {
         .eq("site_id", siteId!)
         .order("created_at", { ascending: false });
       if (error) throw error;
-      return (data ?? []) as Lead[];
+      return ((data ?? []) as Lead[]).filter((l) =>
+        source === "popup"
+          ? l.product_name === POPUP_LEAD_TAG
+          : l.product_name !== POPUP_LEAD_TAG,
+      );
     },
   });
 
@@ -803,9 +812,19 @@ function LeadsAdmin() {
   };
 
   return (
-    <Panel title={`Orçamentos recebidos (${leads?.length ?? 0})`}>
+    <Panel
+      title={
+        source === "popup"
+          ? `Cadastros do pop-up (${leads?.length ?? 0})`
+          : `Orçamentos recebidos (${leads?.length ?? 0})`
+      }
+    >
       {!leads?.length ? (
-        <p className="text-sm text-muted-foreground">Nenhum pedido recebido ainda.</p>
+        <p className="text-sm text-muted-foreground">
+          {source === "popup"
+            ? "Nenhum cadastro pelo pop-up ainda."
+            : "Nenhum pedido recebido ainda."}
+        </p>
       ) : (
         <div className="grid gap-3">
           {leads.map((l) => (
@@ -956,6 +975,66 @@ function SettingsAdmin() {
             onChange={(e) => set("favicon_url", e.target.value)}
             placeholder="/meu-icone.png"
           />
+        </Field>
+      </div>
+
+      <div className="grid gap-4 rounded-md border border-border p-4">
+        <p className="font-display text-lg">Pop-up de captação (cupom)</p>
+        <Toggle
+          label="Exibir pop-up no primeiro acesso"
+          checked={form.popup_enabled}
+          onChange={(v) => set("popup_enabled", v)}
+        />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label="Título do pop-up">
+            <Input value={form.popup_title} onChange={(e) => set("popup_title", e.target.value)} />
+          </Field>
+          <Field label="Subtítulo">
+            <Input
+              value={form.popup_subtitle}
+              onChange={(e) => set("popup_subtitle", e.target.value)}
+            />
+          </Field>
+          <Field label="Texto do botão">
+            <Input value={form.popup_cta} onChange={(e) => set("popup_cta", e.target.value)} />
+          </Field>
+          <Field label="Código do cupom">
+            <Input
+              value={form.popup_coupon}
+              onChange={(e) => set("popup_coupon", e.target.value)}
+            />
+          </Field>
+        </div>
+        <Field label="Imagem do pop-up" hint="Aparece ao lado do formulário no desktop.">
+          <div className="flex flex-wrap items-center gap-3">
+            {form.popup_image_url ? (
+              <img
+                src={form.popup_image_url}
+                alt="Imagem do pop-up"
+                className="h-16 w-24 rounded border border-border object-cover"
+              />
+            ) : null}
+            <Input
+              type="file"
+              accept="image/*"
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                try {
+                  const url = await uploadProductImage(file);
+                  set("popup_image_url", url);
+                  toast.success("Imagem enviada. Clique em Salvar.");
+                } catch (err) {
+                  toast.error(err instanceof Error ? err.message : "Falha no upload");
+                }
+              }}
+            />
+            {form.popup_image_url ? (
+              <Button variant="ghost" size="sm" onClick={() => set("popup_image_url", "")}>
+                Remover
+              </Button>
+            ) : null}
+          </div>
         </Field>
       </div>
 
