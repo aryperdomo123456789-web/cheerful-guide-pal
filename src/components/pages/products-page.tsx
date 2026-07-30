@@ -144,8 +144,8 @@ export function ProductsPageView({
         </div>
 
 
-        <section>
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <section className="min-w-0">
+          <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
             <p className="text-sm text-muted-foreground">
               {isLoading ? t("products.loading") : t("products.count", { n: filtered.length })}
             </p>
@@ -153,7 +153,7 @@ export function ProductsPageView({
               value={search.ordem ?? "relevancia"}
               onValueChange={(v) => setSearch({ ordem: v as ProductSearch["ordem"] })}
             >
-              <SelectTrigger className="w-52">
+              <SelectTrigger className="w-full sm:w-52">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -166,7 +166,7 @@ export function ProductsPageView({
           </div>
 
           {filtered.length === 0 && !isLoading ? (
-            <div className="rounded-lg border border-dashed border-border p-12 text-center">
+            <div className="rounded-lg border border-dashed border-border p-8 text-center sm:p-12">
               <p className="font-display text-xl">{t("products.emptyTitle")}</p>
               <p className="mt-2 text-sm text-muted-foreground">{t("products.emptyText")}</p>
               <Button asChild className="mt-5 bg-ember text-ember-foreground hover:bg-ember/90">
@@ -174,7 +174,7 @@ export function ProductsPageView({
               </Button>
             </div>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-5 min-[420px]:grid-cols-2 sm:gap-6 xl:grid-cols-3">
               {filtered.map((p) => (
                 <ProductCard key={p.id} product={p} showPrice={showPrices} />
               ))}
@@ -191,7 +191,7 @@ function FilterButton({ active, onClick, label }: { active: boolean; onClick: ()
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-md px-3 py-2 text-left text-sm transition-colors ${
+      className={`w-full rounded-md px-3 py-2.5 text-left text-sm transition-colors ${
         active ? "bg-wood text-wood-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground"
       }`}
     >
@@ -205,7 +205,7 @@ function FilterChip({ active, onClick, label }: { active: boolean; onClick: () =
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
+      className={`rounded-full border px-3 py-2 text-xs font-medium transition-colors ${
         active
           ? "border-ember bg-ember text-ember-foreground"
           : "border-border text-muted-foreground hover:border-wood hover:text-foreground"
