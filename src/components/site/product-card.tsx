@@ -59,31 +59,49 @@ export function ProductCard({
       </div>
 
 
-      <div className="flex min-w-0 flex-1 flex-col gap-2 p-3 sm:p-4">
+      <div className={`flex min-w-0 flex-1 flex-col gap-2 p-3 sm:p-4 ${isStore ? "text-center" : ""}`}>
         <h3 className="font-display text-base leading-snug sm:text-lg">{product.name}</h3>
-        <p className="line-clamp-2 text-xs text-muted-foreground sm:text-sm">{product.short_description}</p>
-        <p className="line-clamp-1 text-[0.7rem] uppercase tracking-wide text-muted-foreground sm:text-xs">
-          {product.wood_type}
-          {product.dimensions ? ` · ${product.dimensions}` : ""}
-        </p>
+        {isStore ? null : (
+          <>
+            <p className="line-clamp-2 text-xs text-muted-foreground sm:text-sm">{product.short_description}</p>
+            <p className="line-clamp-1 text-[0.7rem] uppercase tracking-wide text-muted-foreground sm:text-xs">
+              {product.wood_type}
+              {product.dimensions ? ` · ${product.dimensions}` : ""}
+            </p>
+          </>
+        )}
 
         {showPrice ? (
           <div className="mt-auto pt-3">
-            {hasSale ? (
-              <div className="flex items-baseline gap-2">
-                <span className="text-sm text-muted-foreground line-through">
-                  {formatPrice(product.price)}
-                </span>
-                <span className="font-display text-lg text-ember sm:text-xl">{formatPrice(product.sale_price)}</span>
-              </div>
+            {finalPrice == null ? (
+              <span className="text-sm text-muted-foreground">Preço sob consulta</span>
             ) : (
-              <span className="font-display text-lg sm:text-xl">{formatPrice(product.price)}</span>
+              <>
+                {hasSale ? (
+                  <div className={`flex items-baseline gap-2 ${isStore ? "justify-center" : ""}`}>
+                    <span className="text-sm text-muted-foreground line-through">
+                      {formatPrice(product.price)}
+                    </span>
+                    <span className="font-display text-lg text-ember sm:text-xl">
+                      {formatPrice(product.sale_price)}
+                    </span>
+                  </div>
+                ) : (
+                  <span className="font-display text-lg sm:text-xl">{formatPrice(product.price)}</span>
+                )}
+                {isStore ? (
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    em até <strong>10x</strong> de <strong>{formatPrice(finalPrice / 10)}</strong> sem juros
+                  </p>
+                ) : null}
+              </>
             )}
           </div>
         ) : (
           <span className="mt-auto pt-3 text-sm font-medium text-ember">{t("card.details")}</span>
         )}
       </div>
+
     </SiteLink>
   );
 }
