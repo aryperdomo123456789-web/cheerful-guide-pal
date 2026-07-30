@@ -1,5 +1,5 @@
-import { Link, useNavigate } from "@tanstack/react-router";
-import { ChevronDown, Facebook, Instagram, Menu, Search, ShoppingCart, User } from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
+import { ChevronDown, Facebook, Instagram, Menu, Search, ShoppingCart } from "lucide-react";
 import { useState, type FormEvent } from "react";
 
 import { SiteSwitcher } from "@/components/site/site-switcher";
