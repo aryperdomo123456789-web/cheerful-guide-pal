@@ -129,7 +129,7 @@ export function HomePageView() {
                 key={a.id}
                 page="produtos"
                 search={{ ambiente: a.slug }}
-                className="rounded-full border border-wood/40 bg-background px-4 py-2 text-sm font-medium text-wood transition-colors hover:bg-wood hover:text-wood-foreground"
+                className="inline-flex min-h-11 items-center rounded-full border border-wood/40 bg-background px-4 py-2 text-sm font-medium text-wood transition-colors hover:bg-wood hover:text-wood-foreground sm:min-h-0"
               >
                 {tr(a.name)}
               </SiteLink>
