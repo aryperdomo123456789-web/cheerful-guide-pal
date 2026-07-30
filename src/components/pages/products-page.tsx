@@ -55,24 +55,40 @@ export function ProductsPageView({
   return (
     <SiteLayout>
       <div className="border-b border-border bg-sand">
-        <div className="site-container py-12">
+        <div className="site-container py-10 sm:py-12">
           <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">{t("products.eyebrow")}</p>
-          <h1 className="mt-2 font-display text-4xl">{t("products.title")}</h1>
-          <p className="mt-3 max-w-2xl text-muted-foreground">{t("products.intro")}</p>
+          <h1 className="mt-2 font-display text-3xl sm:text-4xl">{t("products.title")}</h1>
+          <p className="mt-3 max-w-2xl text-sm text-muted-foreground sm:text-base">{t("products.intro")}</p>
         </div>
       </div>
 
-      <div className="site-container grid gap-8 py-10 lg:grid-cols-[260px_1fr]">
-        <aside className="space-y-6">
-          <div className="flex items-center gap-2">
-            <SlidersHorizontal className="size-4 text-wood" />
-            <p className="font-display text-lg">{t("products.filters")}</p>
+      <div className="site-container grid gap-6 py-8 sm:py-10 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-8">
+        <div>
+          <Button
+            type="button"
+            variant="outline"
+            className="mb-4 w-full justify-between lg:hidden"
+            onClick={() => setFiltersOpen((v) => !v)}
+            aria-expanded={filtersOpen}
+          >
+            <span className="flex items-center gap-2">
+              <SlidersHorizontal className="size-4 text-wood" />
+              {t("products.filters")}
+            </span>
+            <ChevronDown className={`size-4 transition-transform ${filtersOpen ? "rotate-180" : ""}`} />
+          </Button>
+
+          <aside className={`${filtersOpen ? "block" : "hidden"} space-y-6 lg:block`}>
+            <div className="hidden items-center gap-2 lg:flex">
+              <SlidersHorizontal className="size-4 text-wood" />
+              <p className="font-display text-lg">{t("products.filters")}</p>
+            </div>
             {hasFilters ? (
-              <Button variant="ghost" size="sm" className="ml-auto h-7 px-2 text-xs" onClick={clearFilters}>
+              <Button variant="ghost" size="sm" className="h-8 px-2 text-xs" onClick={clearFilters}>
                 <X className="mr-1 size-3" /> {t("products.clear")}
               </Button>
             ) : null}
-          </div>
+
 
           <div className="grid gap-2">
             <Label htmlFor="busca">{t("products.search")}</Label>
